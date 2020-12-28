@@ -47,4 +47,11 @@ public interface BoardMapper {
    */
   public int deleteBoard(BoardVO vo) throws Exception;
 
+  /**
+   * 조회수 증가
+   * @param vo
+   * @throws Exception
+   */
+  public void increaseViewCount(BoardVO vo) throws Exception;
+
 }
