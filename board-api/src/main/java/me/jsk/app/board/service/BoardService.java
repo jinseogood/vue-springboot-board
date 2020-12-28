@@ -33,5 +33,9 @@ public class BoardService {
 	public int deleteBoard(BoardVO vo) throws Exception {
 		return boardMapper.deleteBoard(vo);
 	}
+
+	public void increaseViewCount(BoardVO vo) throws Exception {
+		boardMapper.increaseViewCount(vo);
+	}
   
 }

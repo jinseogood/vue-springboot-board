@@ -47,6 +47,9 @@ public class BoardController {
     BoardVO vo = new BoardVO();
     vo.setSchDocNo(Integer.parseInt(schDocNo));
 
+    // 조회수 증가
+    boardService.increaseViewCount(vo);
+
     BoardVO result = boardService.selectBoardDetail(vo);
 
     return result;
