@@ -40,4 +40,10 @@
      WHERE DOC_NO = #{docNo}
   </delete>
 
+  <update id="increaseViewCount" parameterType="me.jsk.app.board.domain.BoardVO">
+    UPDATE TB_BOARD
+       SET VIEW = VIEW + 1
+     WHERE DOC_NO = #{schDocNo}
+  </update>
+
 </mapper>
