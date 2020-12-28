@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.jsk.app.board.repository.BoardMapper">
+  <resultMap id="boardResult" type="me.jsk.app.board.domain.BoardVO">
+    <result column="DOC_NO"   property="docNo"    jdbcType="INTEGER"/>
+    <result column="TITLE"    property="title"    jdbcType="VARCHAR" />
+    <result column="CONTENT"  property="content"  jdbcType="VARCHAR" />
+    <result column="WRITER"   property="writer"   jdbcType="VARCHAR" />
+    <result column="REG_DTTM" property="regDttm"  jdbcType="VARCHAR"/>
+    <result column="VIEW"     property="view"     jdbcType="INTEGER"/>
+    <result column="REPLY"    property="reply"    jdbcType="INTEGER"/>
+  </resultMap>
+  <select id="selectBoardList" resultMap="boardResult">
+    SELECT DOC_NO, TITLE, CONTENT, WRITER, REG_DTTM, VIEW, REPLY
+      FROM TB_BOARD
+  </select>
+
+  <select id="selectBoardDetail" resultMap="boardResult" parameterType="me.jsk.app.board.domain.BoardVO">
+    SELECT DOC_NO, TITLE, CONTENT, WRITER, REG_DTTM, VIEW, REPLY
+      FROM TB_BOARD
+     WHERE DOC_NO = #{schDocNo}
+  </select>
+
+  <insert id="insertBoard" parameterType="me.jsk.app.board.domain.BoardVO" useGeneratedKeys="true" keyProperty="docNo">
+    INSERT INTO TB_BOARD (TITLE, CONTENT, WRITER)
+    VALUES (#{title}, #{content}, #{writer})
+  </insert>
+
+  <update id="updateBoard" parameterType="me.jsk.app.board.domain.BoardVO">
+    UPDATE TB_BOARD
+       SET TITLE = #{title}
+         , CONTENT = #{content}
+     WHERE DOC_NO = #{docNo}
+  </update>
+
+  <delete id="deleteBoard" parameterType="me.jsk.app.board.domain.BoardVO">
+    DELETE FROM TB_BOARD
+     WHERE DOC_NO = #{docNo}
+  </delete>
+
+</mapper>
