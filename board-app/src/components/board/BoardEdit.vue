@@ -24,7 +24,7 @@
 					btnName="Edit"
 				></Button>
 				<Button
-					@click.native="movePage('/detail?schDocNo=' + docNo)"
+					@click.native="movePage('/detail?docNo=' + docNo)"
 					color="grey darken-1"
 					rounded
 					small
@@ -55,7 +55,7 @@ export default {
 	mounted() {
 		getBoardDetail({
 			params: {
-				schDocNo: this.$route.query.schDocNo,
+				docNo: this.$route.query.docNo,
 			},
 		})
 			.then(response => {
@@ -93,7 +93,7 @@ export default {
 								msg: 'Edit Complete',
 								color: 'warning',
 							})
-							this.movePage('/detail?schDocNo=' + docNo)
+							this.movePage('/detail?docNo=' + docNo)
 						}
 					})
 					.catch(error => {

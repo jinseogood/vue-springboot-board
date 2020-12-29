@@ -9,16 +9,6 @@ public class BoardVO {
   private int view;
   private int reply;
 
-  private int schDocNo;
-
-  public int getSchDocNo() {
-    return this.schDocNo;
-  }
-
-  public void setSchDocNo(int schDocNo) {
-    this.schDocNo = schDocNo;
-  }
-
   public int getDocNo() {
     return this.docNo;
   }

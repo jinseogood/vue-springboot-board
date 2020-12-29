@@ -54,6 +54,24 @@
 							</td>
 							<td style="padding: 0;">{{ reply.content }}</td>
 							<td style="width:150px; padding: 0;">{{ reply.regDttm }}</td>
+							<td style="width:10px; padding: 0;">
+								<Button
+									@click.native="replyEdit(reply.replyNo, reply.content)"
+									color="grey"
+									icon
+									xsmall
+									iconName="mdi-pencil"
+								/>
+							</td>
+							<td style="width:10px; padding: 0;">
+								<Button
+									@click.native="replyDel(reply.replyNo)"
+									color="red"
+									icon
+									xsmall
+									iconName="mdi-close"
+								/>
+							</td>
 						</tr>
 					</tbody>
 				</v-simple-table>
@@ -83,7 +101,7 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<Button
-					@click.native="movePage('/edit?schDocNo=' + docNo)"
+					@click.native="movePage('/edit?docNo=' + docNo)"
 					color="warning"
 					rounded
 					small
@@ -118,6 +136,8 @@ import {
 	deleteBoard,
 	insertReply,
 	getReplyList,
+	deleteReply,
+	updateReply,
 } from '@/api/index'
 
 export default {
@@ -139,7 +159,7 @@ export default {
 	mounted() {
 		getBoardDetail({
 			params: {
-				schDocNo: this.$route.query.schDocNo,
+				docNo: this.$route.query.docNo,
 			},
 		})
 			.then(response => {
@@ -156,7 +176,7 @@ export default {
 			})
 		getReplyList({
 			params: {
-				schDocNo: this.$route.query.schDocNo,
+				docNo: this.$route.query.docNo,
 			},
 		})
 			.then(response => {
@@ -203,7 +223,49 @@ export default {
 				})
 					.then(response => {
 						if (response.data > 0) {
-							this.$router.go(this.$router.currentRoute)
+							this.refresh()
+						}
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
+		},
+		async replyEdit(replyNo, comment) {
+			let res = await this.promptDialog('Edit Reply', 'Comment', comment)
+			if (res) {
+				updateReply({
+					params: {
+						replyNo: replyNo,
+						docNo: this.docNo,
+						comment: res,
+					},
+				})
+					.then(response => {
+						if (response.data > 0) {
+							this.refresh()
+						}
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
+		},
+		async replyDel(replyNo) {
+			let res = await this.confirmDialog(
+				'Confirm Reply Delete',
+				'Are you sure you want to delete it?',
+			)
+			if (res) {
+				deleteReply({
+					params: {
+						replyNo: replyNo,
+						docNo: this.docNo,
+					},
+				})
+					.then(response => {
+						if (response.data > 0) {
+							this.refresh()
 						}
 					})
 					.catch(error => {

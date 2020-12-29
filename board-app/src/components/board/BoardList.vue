@@ -82,7 +82,7 @@ export default {
 	},
 	methods: {
 		onClickRow(event, data) {
-			this.movePage('/detail?schDocNo=' + data.item.docNo)
+			this.movePage('/detail?docNo=' + data.item.docNo)
 		},
 	},
 }
