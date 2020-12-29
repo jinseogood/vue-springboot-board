@@ -72,8 +72,10 @@
 						<Button
 							@click.native="replySave"
 							color="indigo"
-							icon="mdi-pencil"
-							title="Save"
+							rounded
+							small
+							iconName="mdi-pencil"
+							btnName="Save"
 						></Button>
 					</v-col>
 				</v-row>
@@ -83,20 +85,26 @@
 				<Button
 					@click.native="movePage('/edit?schDocNo=' + docNo)"
 					color="warning"
-					icon="mdi-pencil"
-					title="Edit"
+					rounded
+					small
+					iconName="mdi-pencil"
+					btnName="Edit"
 				></Button>
 				<Button
 					@click.native="del"
 					color="error"
-					icon="mdi-delete-forever"
-					title="Delete"
+					rounded
+					small
+					iconName="mdi-delete-forever"
+					btnName="Delete"
 				></Button>
 				<Button
 					@click.native="movePage('/list')"
 					color="grey darken-1"
-					icon="mdi-arrow-left"
-					title="Back"
+					rounded
+					small
+					iconName="mdi-arrow-left"
+					btnName="Back"
 				></Button>
 			</v-card-actions>
 		</v-card>

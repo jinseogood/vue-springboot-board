@@ -18,14 +18,18 @@
 				<Button
 					@click.native="save"
 					color="success"
-					icon="mdi-content-save-all"
-					title="Save"
+					rounded
+					small
+					iconName="mdi-content-save-all"
+					btnName="Save"
 				></Button>
 				<Button
 					@click.native="movePage('/list')"
 					color="grey darken-1"
-					icon="mdi-arrow-left"
-					title="Back"
+					rounded
+					small
+					iconName="mdi-arrow-left"
+					btnName="Back"
 				></Button>
 			</v-card-actions>
 		</v-card>
