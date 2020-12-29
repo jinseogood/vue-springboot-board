@@ -41,7 +41,49 @@
 					</v-col>
 				</v-row>
 				Content<br />
-				<Viewer ref="viewer" />
+				<Viewer ref="viewer" /><br />
+				Reply ({{ replyCount }})<br />
+				<v-simple-table dense>
+					<tbody>
+						<tr v-for="(reply, index) in replies" :key="index">
+							<td style="width:100px; padding: 0;">
+								<v-icon small>
+									mdi-account
+								</v-icon>
+								{{ reply.writer }}
+							</td>
+							<td style="padding: 0;">{{ reply.content }}</td>
+							<td style="width:150px; padding: 0;">{{ reply.regDttm }}</td>
+						</tr>
+					</tbody>
+				</v-simple-table>
+				<v-divider></v-divider>
+				<v-row>
+					<v-col style="padding: 0px 12px;">
+						<v-textarea
+							clearable
+							clear-icon="mdi-close-circle"
+							rows="2"
+							no-resize
+							v-model="comment"
+						></v-textarea>
+					</v-col>
+					<v-col cols="2" align-self="center">
+						<v-btn
+							@click="replySave"
+							color="indigo"
+							class="ma-2 white--text"
+							rounded
+							small
+						>
+							<v-icon small>
+								mdi-pencil
+							</v-icon>
+							<span style="width:5px;"></span>
+							Save
+						</v-btn>
+					</v-col>
+				</v-row>
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>
@@ -91,7 +133,12 @@
 
 <script>
 import Viewer from '@/components/common/Viewer'
-import { getBoardDetail, deleteBoard } from '@/api/index'
+import {
+	getBoardDetail,
+	deleteBoard,
+	insertReply,
+	getReplyList,
+} from '@/api/index'
 
 export default {
 	components: {
@@ -104,7 +151,9 @@ export default {
 			writer: '',
 			regDttm: '',
 			view: 0,
-			reply: 0,
+			replyCount: 0,
+			replies: null,
+			comment: '',
 		}
 	},
 	mounted() {
@@ -120,7 +169,18 @@ export default {
 				this.writer = response.data.writer
 				this.regDttm = response.data.regDttm
 				this.view = response.data.view
-				this.reply = response.data.reply
+				this.replyCount = response.data.reply
+			})
+			.catch(error => {
+				console.log(error)
+			})
+		getReplyList({
+			params: {
+				schDocNo: this.$route.query.schDocNo,
+			},
+		})
+			.then(response => {
+				this.replies = response.data
 			})
 			.catch(error => {
 				console.log(error)
@@ -146,6 +206,24 @@ export default {
 								color: 'error',
 							})
 							this.movePage('/list')
+						}
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
+		},
+		replySave() {
+			if (this.comment !== null) {
+				insertReply({
+					params: {
+						docNo: this.docNo,
+						comment: this.comment,
+					},
+				})
+					.then(response => {
+						if (response.data > 0) {
+							this.$router.go(this.$router.currentRoute)
 						}
 					})
 					.catch(error => {
