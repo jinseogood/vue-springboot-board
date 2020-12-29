@@ -37,10 +37,12 @@ public class BoardController {
   @ResponseBody
   @GetMapping(value="/list")
   public List<BoardVO> selectBoardList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    String schType = request.getParameter("schType");
+    String schVal = request.getParameter("schVal");
 
     BoardVO vo = new BoardVO();
-
-    // TODO 검색조건 처리 필요
+    vo.setSchType(schType);
+    vo.setSchVal(schVal);
 
     List<BoardVO> result = boardService.selectBoardList(vo);
 

@@ -12,9 +12,23 @@
     <result column="VIEW"     property="view"     jdbcType="INTEGER"/>
     <result column="REPLY"    property="reply"    jdbcType="INTEGER"/>
   </resultMap>
-  <select id="selectBoardList" resultMap="boardResult">
+  <select id="selectBoardList" resultMap="boardResult" parameterType="me.jsk.app.board.domain.BoardVO">
     SELECT A.DOC_NO, A.TITLE, A.CONTENT, A.WRITER, A.REG_DTTM, A.VIEW, (SELECT COUNT(*) FROM TB_REPLY X WHERE X.DOC_NO = A.DOC_NO) AS REPLY
       FROM TB_BOARD A
+     WHERE 1 = 1
+     <if test="schType != null and schType != '' and schVal != null and schVal != ''">
+       <choose>
+         <when test="schType == 'docNo'">
+          AND DOC_NO = #{schVal}
+         </when>
+         <when test="schType == 'title'">
+          AND TITLE = #{schVal}
+         </when>
+         <when test="schType == 'writer'">
+          AND WRITER = #{schVal}
+         </when>
+       </choose>
+     </if>
   </select>
 
   <select id="selectBoardDetail" resultMap="boardResult" parameterType="me.jsk.app.board.domain.BoardVO">
