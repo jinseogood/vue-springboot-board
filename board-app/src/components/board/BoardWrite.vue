@@ -15,32 +15,18 @@
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>
-				<v-btn
-					@click="save"
+				<Button
+					@click.native="save"
 					color="success"
-					class="ma-2 white--text"
-					rounded
-					small
-				>
-					<v-icon small>
-						mdi-content-save-all
-					</v-icon>
-					<span style="width:5px;"></span>
-					Save
-				</v-btn>
-				<v-btn
-					@click="prevPage()"
+					icon="mdi-content-save-all"
+					title="Save"
+				></Button>
+				<Button
+					@click.native="movePage('/list')"
 					color="grey darken-1"
-					class="ma-2 white--text"
-					rounded
-					small
-				>
-					<v-icon small>
-						mdi-arrow-left
-					</v-icon>
-					<span style="width:5px;"></span>
-					Back
-				</v-btn>
+					icon="mdi-arrow-left"
+					title="Back"
+				></Button>
 			</v-card-actions>
 		</v-card>
 	</v-container>

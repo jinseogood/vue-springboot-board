@@ -69,63 +69,35 @@
 						></v-textarea>
 					</v-col>
 					<v-col cols="2" align-self="center">
-						<v-btn
-							@click="replySave"
+						<Button
+							@click.native="replySave"
 							color="indigo"
-							class="ma-2 white--text"
-							rounded
-							small
-						>
-							<v-icon small>
-								mdi-pencil
-							</v-icon>
-							<span style="width:5px;"></span>
-							Save
-						</v-btn>
+							icon="mdi-pencil"
+							title="Save"
+						></Button>
 					</v-col>
 				</v-row>
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>
-				<v-btn
-					@click="movePage('/edit?schDocNo=' + docNo)"
+				<Button
+					@click.native="movePage('/edit?schDocNo=' + docNo)"
 					color="warning"
-					class="ma-2 white--text"
-					rounded
-					small
-				>
-					<v-icon small>
-						mdi-pencil
-					</v-icon>
-					<span style="width:5px;"></span>
-					Edit
-				</v-btn>
-				<v-btn
-					@click="del"
+					icon="mdi-pencil"
+					title="Edit"
+				></Button>
+				<Button
+					@click.native="del"
 					color="error"
-					class="ma-2 white--text"
-					rounded
-					small
-				>
-					<v-icon small>
-						mdi-delete-forever
-					</v-icon>
-					<span style="width:5px;"></span>
-					Delete
-				</v-btn>
-				<v-btn
-					@click="movePage('/list')"
+					icon="mdi-delete-forever"
+					title="Delete"
+				></Button>
+				<Button
+					@click.native="movePage('/list')"
 					color="grey darken-1"
-					class="ma-2 white--text"
-					rounded
-					small
-				>
-					<v-icon small>
-						mdi-arrow-left
-					</v-icon>
-					<span style="width:5px;"></span>
-					Back
-				</v-btn>
+					icon="mdi-arrow-left"
+					title="Back"
+				></Button>
 			</v-card-actions>
 		</v-card>
 	</v-container>

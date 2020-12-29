@@ -15,32 +15,18 @@
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>
-				<v-btn
-					@click="edit"
+				<Button
+					@click.native="edit"
 					color="warning"
-					class="ma-2 white--text"
-					rounded
-					small
-				>
-					<v-icon small>
-						mdi-pencil
-					</v-icon>
-					<span style="width:5px;"></span>
-					Edit
-				</v-btn>
-				<v-btn
-					@click="movePage('/detail?schDocNo=' + docNo)"
+					icon="mdi-pencil"
+					title="Edit"
+				></Button>
+				<Button
+					@click.native="movePage('/detail?schDocNo=' + docNo)"
 					color="grey darken-1"
-					class="ma-2 white--text"
-					rounded
-					small
-				>
-					<v-icon small>
-						mdi-arrow-left
-					</v-icon>
-					<span style="width:5px;"></span>
-					Back
-				</v-btn>
+					icon="mdi-arrow-left"
+					title="Back"
+				></Button>
 			</v-card-actions>
 		</v-card>
 	</v-container>
