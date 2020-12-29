@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import me.jsk.app.board.domain.BoardVO;
+import me.jsk.app.board.domain.ReplyVO;
 import me.jsk.app.board.repository.BoardMapper;
 
 @Service
@@ -36,6 +37,14 @@ public class BoardService {
 
 	public void increaseViewCount(BoardVO vo) throws Exception {
 		boardMapper.increaseViewCount(vo);
+	}
+
+	public int insertReply(ReplyVO vo) throws Exception {
+		return boardMapper.insertReply(vo);
+	}
+
+	public List<ReplyVO> selectReplyList(ReplyVO vo) throws Exception {
+		return boardMapper.selectReplyList(vo);
 	}
   
 }

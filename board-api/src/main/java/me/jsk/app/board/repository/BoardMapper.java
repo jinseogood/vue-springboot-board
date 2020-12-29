@@ -3,6 +3,7 @@ package me.jsk.app.board.repository;
 import java.util.List;
 
 import me.jsk.app.board.domain.BoardVO;
+import me.jsk.app.board.domain.ReplyVO;
 
 public interface BoardMapper {
   
@@ -53,5 +54,21 @@ public interface BoardMapper {
    * @throws Exception
    */
   public void increaseViewCount(BoardVO vo) throws Exception;
+
+  /**
+   * 댓글 작성
+   * @param vo
+   * @return
+   * @throws Exception
+   */
+  public int insertReply(ReplyVO vo) throws Exception;
+
+  /**
+   * 댓글 조회
+   * @param vo
+   * @return
+   * @throws Exception
+   */
+  public List<ReplyVO> selectReplyList(ReplyVO vo) throws Exception;
 
 }
