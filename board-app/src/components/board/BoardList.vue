@@ -19,8 +19,10 @@
 						<Button
 							@click.native="movePage('/write')"
 							color="black"
-							icon="mdi-pencil"
-							title="Write"
+							rounded
+							small
+							iconName="mdi-pencil"
+							btnName="Write"
 						></Button>
 					</v-col>
 				</v-row>
