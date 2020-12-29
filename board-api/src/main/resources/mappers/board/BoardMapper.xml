@@ -13,14 +13,14 @@
     <result column="REPLY"    property="reply"    jdbcType="INTEGER"/>
   </resultMap>
   <select id="selectBoardList" resultMap="boardResult">
-    SELECT DOC_NO, TITLE, CONTENT, WRITER, REG_DTTM, VIEW, REPLY
-      FROM TB_BOARD
+    SELECT A.DOC_NO, A.TITLE, A.CONTENT, A.WRITER, A.REG_DTTM, A.VIEW, (SELECT COUNT(*) FROM TB_REPLY X WHERE X.DOC_NO = A.DOC_NO) AS REPLY
+      FROM TB_BOARD A
   </select>
 
   <select id="selectBoardDetail" resultMap="boardResult" parameterType="me.jsk.app.board.domain.BoardVO">
-    SELECT DOC_NO, TITLE, CONTENT, WRITER, REG_DTTM, VIEW, REPLY
-      FROM TB_BOARD
-     WHERE DOC_NO = #{schDocNo}
+    SELECT A.DOC_NO, A.TITLE, A.CONTENT, A.WRITER, A.REG_DTTM, A.VIEW, (SELECT COUNT(*) FROM TB_REPLY X WHERE X.DOC_NO = A.DOC_NO) AS REPLY
+      FROM TB_BOARD A
+     WHERE A.DOC_NO = #{schDocNo}
   </select>
 
   <insert id="insertBoard" parameterType="me.jsk.app.board.domain.BoardVO" useGeneratedKeys="true" keyProperty="docNo">
@@ -45,5 +45,24 @@
        SET VIEW = VIEW + 1
      WHERE DOC_NO = #{schDocNo}
   </update>
+
+  <resultMap id="replyResult" type="me.jsk.app.board.domain.ReplyVO">
+    <result column="REPLY_NO" property="replyNo" jdbcType="INTEGER"/>
+    <result column="DOC_NO"   property="docNo"   jdbcType="INTEGER"/>
+    <result column="WRITER"   property="writer"  jdbcType="VARCHAR"/>
+    <result column="CONTENT"  property="content" jdbcType="VARCHAR"/>
+    <result column="REG_DTTM" property="regDttm" jdbcType="VARCHAR"/>
+  </resultMap>
+  <select id="selectReplyList" resultMap="replyResult" parameterType="me.jsk.app.board.domain.ReplyVO">
+    SELECT REPLY_NO, DOC_NO, WRITER, CONTENT, REG_DTTM
+      FROM TB_REPLY
+     WHERE DOC_NO = #{schDocNo}
+  </select>
+
+  <insert id="insertReply" parameterType="me.jsk.app.board.domain.ReplyVO">
+    INSERT INTO TB_REPLY (DOC_NO, WRITER, CONTENT)
+    VALUES (#{docNo}, #{writer}, #{content})
+  </insert>
+
 
 </mapper>
