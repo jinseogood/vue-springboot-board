@@ -20,12 +20,15 @@
   <select id="selectBoardDetail" resultMap="boardResult" parameterType="me.jsk.app.board.domain.BoardVO">
     SELECT A.DOC_NO, A.TITLE, A.CONTENT, A.WRITER, A.REG_DTTM, A.VIEW, (SELECT COUNT(*) FROM TB_REPLY X WHERE X.DOC_NO = A.DOC_NO) AS REPLY
       FROM TB_BOARD A
-     WHERE A.DOC_NO = #{schDocNo}
+     WHERE A.DOC_NO = #{docNo}
   </select>
 
-  <insert id="insertBoard" parameterType="me.jsk.app.board.domain.BoardVO" useGeneratedKeys="true" keyProperty="docNo">
-    INSERT INTO TB_BOARD (TITLE, CONTENT, WRITER)
-    VALUES (#{title}, #{content}, #{writer})
+  <insert id="insertBoard" parameterType="me.jsk.app.board.domain.BoardVO">
+    <selectKey resultType="int" keyProperty="docNo" order="BEFORE">
+      SELECT IFNULL(MAX(DOC_NO), 0) + 1 AS DOC_NO FROM TB_BOARD
+    </selectKey>
+    INSERT INTO TB_BOARD (DOC_NO, TITLE, CONTENT, WRITER)
+    VALUES (#{docNo}, #{title}, #{content}, #{writer})
   </insert>
 
   <update id="updateBoard" parameterType="me.jsk.app.board.domain.BoardVO">
@@ -43,7 +46,7 @@
   <update id="increaseViewCount" parameterType="me.jsk.app.board.domain.BoardVO">
     UPDATE TB_BOARD
        SET VIEW = VIEW + 1
-     WHERE DOC_NO = #{schDocNo}
+     WHERE DOC_NO = #{docNo}
   </update>
 
   <resultMap id="replyResult" type="me.jsk.app.board.domain.ReplyVO">
@@ -56,13 +59,30 @@
   <select id="selectReplyList" resultMap="replyResult" parameterType="me.jsk.app.board.domain.ReplyVO">
     SELECT REPLY_NO, DOC_NO, WRITER, CONTENT, REG_DTTM
       FROM TB_REPLY
-     WHERE DOC_NO = #{schDocNo}
+     WHERE DOC_NO = #{docNo}
   </select>
 
   <insert id="insertReply" parameterType="me.jsk.app.board.domain.ReplyVO">
-    INSERT INTO TB_REPLY (DOC_NO, WRITER, CONTENT)
-    VALUES (#{docNo}, #{writer}, #{content})
+    <selectKey resultType="int" keyProperty="replyNo" order="BEFORE">
+      SELECT IFNULL(MAX(REPLY_NO), 0) + 1 AS REPLY_NO FROM TB_REPLY WHERE DOC_NO = #{docNo}
+    </selectKey>
+    INSERT INTO TB_REPLY (REPLY_NO, DOC_NO, WRITER, CONTENT)
+    VALUES (#{replyNo}, #{docNo}, #{writer}, #{content})
   </insert>
 
+  <update id="updateReply" parameterType="me.jsk.app.board.domain.ReplyVO">
+    UPDATE TB_REPLY
+       SET CONTENT = #{content}
+     WHERE REPLY_NO = #{replyNo}
+       AND DOC_NO = #{docNo}
+  </update>
+
+  <delete id="deleteReply" parameterType="me.jsk.app.board.domain.ReplyVO">
+    DELETE FROM TB_REPLY
+     WHERE DOC_NO = #{docNo}
+     <if test="replyNo > 0">
+       AND REPLY_NO = #{replyNo}
+     </if>
+  </delete>
 
 </mapper>

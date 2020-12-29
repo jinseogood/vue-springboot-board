@@ -60,6 +60,22 @@ function getReplyList(params) {
 	return instance.get('/board/reply/list', params)
 }
 
+/**
+ * 댓글 수정
+ * @param {*} params
+ */
+function updateReply(params) {
+	return instance.post('/board/reply/update', null, params)
+}
+
+/**
+ * 댓글 삭제
+ * @param {*} params
+ */
+function deleteReply(params) {
+	return instance.post('/board/reply/delete', null, params)
+}
+
 export {
 	getBoardList,
 	getBoardDetail,
@@ -68,4 +84,6 @@ export {
 	deleteBoard,
 	insertReply,
 	getReplyList,
+	updateReply,
+	deleteReply,
 }

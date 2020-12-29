@@ -56,6 +56,14 @@ public interface BoardMapper {
   public void increaseViewCount(BoardVO vo) throws Exception;
 
   /**
+   * 댓글 조회
+   * @param vo
+   * @return
+   * @throws Exception
+   */
+  public List<ReplyVO> selectReplyList(ReplyVO vo) throws Exception;
+
+  /**
    * 댓글 작성
    * @param vo
    * @return
@@ -64,11 +72,19 @@ public interface BoardMapper {
   public int insertReply(ReplyVO vo) throws Exception;
 
   /**
-   * 댓글 조회
+   * 댓글 수정
    * @param vo
    * @return
    * @throws Exception
    */
-  public List<ReplyVO> selectReplyList(ReplyVO vo) throws Exception;
+  public int updateReply(ReplyVO vo) throws Exception;
+
+  /**
+   * 댓글 삭제
+   * @param vo
+   * @return
+   * @throws Exception
+   */
+  public int deleteReply(ReplyVO vo) throws Exception;
 
 }

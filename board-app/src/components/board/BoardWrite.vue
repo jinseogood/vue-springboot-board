@@ -73,7 +73,7 @@ export default {
 								msg: 'Insert Complete',
 								color: 'success',
 							})
-							this.movePage('/detail?schDocNo=' + response.data)
+							this.movePage('/detail?docNo=' + response.data)
 						}
 					})
 					.catch(error => {

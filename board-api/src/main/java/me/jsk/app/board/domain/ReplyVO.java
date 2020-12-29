@@ -7,16 +7,6 @@ public class ReplyVO {
   private String content;
   private String regDttm;
 
-  private int schDocNo;
-
-  public int getSchDocNo() {
-    return this.schDocNo;
-  }
-
-  public void setSchDocNo(int schDocNo) {
-    this.schDocNo = schDocNo;
-  }
-
   public int getReplyNo() {
     return this.replyNo;
   }

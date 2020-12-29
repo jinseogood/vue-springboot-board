@@ -39,12 +39,20 @@ public class BoardService {
 		boardMapper.increaseViewCount(vo);
 	}
 
+	public List<ReplyVO> selectReplyList(ReplyVO vo) throws Exception {
+		return boardMapper.selectReplyList(vo);
+	}
+
 	public int insertReply(ReplyVO vo) throws Exception {
 		return boardMapper.insertReply(vo);
 	}
 
-	public List<ReplyVO> selectReplyList(ReplyVO vo) throws Exception {
-		return boardMapper.selectReplyList(vo);
+	public int updateReply(ReplyVO vo) throws Exception {
+		return boardMapper.updateReply(vo);
+	}
+
+	public int deleteReply(ReplyVO vo) throws Exception {
+		return boardMapper.deleteReply(vo);
 	}
   
 }
