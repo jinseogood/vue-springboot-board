@@ -15,32 +15,22 @@
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>
-				<v-btn
-					@click="edit"
+				<Button
+					@click.native="edit"
 					color="warning"
-					class="ma-2 white--text"
 					rounded
 					small
-				>
-					<v-icon small>
-						mdi-pencil
-					</v-icon>
-					<span style="width:5px;"></span>
-					Edit
-				</v-btn>
-				<v-btn
-					@click="movePage('/detail?schDocNo=' + docNo)"
+					iconName="mdi-pencil"
+					btnName="Edit"
+				></Button>
+				<Button
+					@click.native="movePage('/detail?docNo=' + docNo)"
 					color="grey darken-1"
-					class="ma-2 white--text"
 					rounded
 					small
-				>
-					<v-icon small>
-						mdi-arrow-left
-					</v-icon>
-					<span style="width:5px;"></span>
-					Back
-				</v-btn>
+					iconName="mdi-arrow-left"
+					btnName="Back"
+				></Button>
 			</v-card-actions>
 		</v-card>
 	</v-container>
@@ -65,7 +55,7 @@ export default {
 	mounted() {
 		getBoardDetail({
 			params: {
-				schDocNo: this.$route.query.schDocNo,
+				docNo: this.$route.query.docNo,
 			},
 		})
 			.then(response => {
@@ -103,7 +93,7 @@ export default {
 								msg: 'Edit Complete',
 								color: 'warning',
 							})
-							this.movePage('/detail?schDocNo=' + docNo)
+							this.movePage('/detail?docNo=' + docNo)
 						}
 					})
 					.catch(error => {

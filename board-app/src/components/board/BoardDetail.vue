@@ -54,6 +54,24 @@
 							</td>
 							<td style="padding: 0;">{{ reply.content }}</td>
 							<td style="width:150px; padding: 0;">{{ reply.regDttm }}</td>
+							<td style="width:10px; padding: 0;">
+								<Button
+									@click.native="replyEdit(reply.replyNo, reply.content)"
+									color="grey"
+									icon
+									xsmall
+									iconName="mdi-pencil"
+								/>
+							</td>
+							<td style="width:10px; padding: 0;">
+								<Button
+									@click.native="replyDel(reply.replyNo)"
+									color="red"
+									icon
+									xsmall
+									iconName="mdi-close"
+								/>
+							</td>
 						</tr>
 					</tbody>
 				</v-simple-table>
@@ -69,63 +87,43 @@
 						></v-textarea>
 					</v-col>
 					<v-col cols="2" align-self="center">
-						<v-btn
-							@click="replySave"
+						<Button
+							@click.native="replySave"
 							color="indigo"
-							class="ma-2 white--text"
 							rounded
 							small
-						>
-							<v-icon small>
-								mdi-pencil
-							</v-icon>
-							<span style="width:5px;"></span>
-							Save
-						</v-btn>
+							iconName="mdi-pencil"
+							btnName="Save"
+						></Button>
 					</v-col>
 				</v-row>
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>
-				<v-btn
-					@click="movePage('/edit?schDocNo=' + docNo)"
+				<Button
+					@click.native="movePage('/edit?docNo=' + docNo)"
 					color="warning"
-					class="ma-2 white--text"
 					rounded
 					small
-				>
-					<v-icon small>
-						mdi-pencil
-					</v-icon>
-					<span style="width:5px;"></span>
-					Edit
-				</v-btn>
-				<v-btn
-					@click="del"
+					iconName="mdi-pencil"
+					btnName="Edit"
+				></Button>
+				<Button
+					@click.native="del"
 					color="error"
-					class="ma-2 white--text"
 					rounded
 					small
-				>
-					<v-icon small>
-						mdi-delete-forever
-					</v-icon>
-					<span style="width:5px;"></span>
-					Delete
-				</v-btn>
-				<v-btn
-					@click="movePage('/list')"
+					iconName="mdi-delete-forever"
+					btnName="Delete"
+				></Button>
+				<Button
+					@click.native="movePage('/list')"
 					color="grey darken-1"
-					class="ma-2 white--text"
 					rounded
 					small
-				>
-					<v-icon small>
-						mdi-arrow-left
-					</v-icon>
-					<span style="width:5px;"></span>
-					Back
-				</v-btn>
+					iconName="mdi-arrow-left"
+					btnName="Back"
+				></Button>
 			</v-card-actions>
 		</v-card>
 	</v-container>
@@ -138,6 +136,8 @@ import {
 	deleteBoard,
 	insertReply,
 	getReplyList,
+	deleteReply,
+	updateReply,
 } from '@/api/index'
 
 export default {
@@ -159,7 +159,7 @@ export default {
 	mounted() {
 		getBoardDetail({
 			params: {
-				schDocNo: this.$route.query.schDocNo,
+				docNo: this.$route.query.docNo,
 			},
 		})
 			.then(response => {
@@ -176,7 +176,7 @@ export default {
 			})
 		getReplyList({
 			params: {
-				schDocNo: this.$route.query.schDocNo,
+				docNo: this.$route.query.docNo,
 			},
 		})
 			.then(response => {
@@ -223,7 +223,49 @@ export default {
 				})
 					.then(response => {
 						if (response.data > 0) {
-							this.$router.go(this.$router.currentRoute)
+							this.refresh()
+						}
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
+		},
+		async replyEdit(replyNo, comment) {
+			let res = await this.promptDialog('Edit Reply', 'Comment', comment)
+			if (res) {
+				updateReply({
+					params: {
+						replyNo: replyNo,
+						docNo: this.docNo,
+						comment: res,
+					},
+				})
+					.then(response => {
+						if (response.data > 0) {
+							this.refresh()
+						}
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
+		},
+		async replyDel(replyNo) {
+			let res = await this.confirmDialog(
+				'Confirm Reply Delete',
+				'Are you sure you want to delete it?',
+			)
+			if (res) {
+				deleteReply({
+					params: {
+						replyNo: replyNo,
+						docNo: this.docNo,
+					},
+				})
+					.then(response => {
+						if (response.data > 0) {
+							this.refresh()
 						}
 					})
 					.catch(error => {

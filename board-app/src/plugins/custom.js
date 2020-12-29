@@ -17,6 +17,12 @@ myPlugin.install = function(Vue) {
 		window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
 	}
 	/**
+	 * 페이지 새로고침
+	 */
+	Vue.prototype.refresh = function() {
+		this.$router.go(this.$router.currentRoute)
+	}
+	/**
 	 * 확인창 표시
 	 * @param {*} title
 	 * @param {*} text
@@ -33,6 +39,21 @@ myPlugin.install = function(Vue) {
 					text: 'Yes',
 				},
 			},
+		})
+
+		return res
+	}
+	/**
+	 * 입력창 표시
+	 * @param {*} title
+	 * @param {*} text
+	 */
+	Vue.prototype.promptDialog = function(title, text, content) {
+		let res = this.$dialog.prompt({
+			title: title,
+			text: text,
+			value: content,
+			persistent: true,
 		})
 
 		return res

@@ -37,10 +37,12 @@ public class BoardController {
   @ResponseBody
   @GetMapping(value="/list")
   public List<BoardVO> selectBoardList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    String schType = request.getParameter("schType");
+    String schVal = request.getParameter("schVal");
 
     BoardVO vo = new BoardVO();
-
-    // TODO 검색조건 처리 필요
+    vo.setSchType(schType);
+    vo.setSchVal(schVal);
 
     List<BoardVO> result = boardService.selectBoardList(vo);
 
@@ -57,10 +59,10 @@ public class BoardController {
   @ResponseBody
   @GetMapping(value = "/detail")
   public BoardVO selectBoardDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    String schDocNo = request.getParameter("schDocNo");
+    String docNo = request.getParameter("docNo");
 
     BoardVO vo = new BoardVO();
-    vo.setSchDocNo(Integer.parseInt(schDocNo));
+    vo.setDocNo(Integer.parseInt(docNo));
 
     // 조회수 증가
     boardService.increaseViewCount(vo);
@@ -139,9 +141,39 @@ public class BoardController {
     BoardVO vo = new BoardVO();
     vo.setDocNo(Integer.parseInt(docNo));
 
+    // 댓글 유무 확인 후 같이 삭제
+    ReplyVO replyVO = new ReplyVO();
+    replyVO.setDocNo(Integer.parseInt(docNo));
+
+    List<ReplyVO> result = boardService.selectReplyList(replyVO);
+
+    if(result.size() > 0) {
+      boardService.deleteReply(replyVO);
+    }
+
     int rows = boardService.deleteBoard(vo);
 
     return rows;
+  }
+
+  /**
+   * 댓글 조회
+   * @param request
+   * @param response
+   * @return
+   * @throws Exception
+   */
+  @ResponseBody
+  @GetMapping(value = "/reply/list")
+  public List<ReplyVO> selectReplyList(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    String docNo = request.getParameter("docNo");
+
+    ReplyVO vo = new ReplyVO();
+    vo.setDocNo(Integer.parseInt(docNo));
+
+    List<ReplyVO> result = boardService.selectReplyList(vo);
+
+    return result;
   }
 
   /**
@@ -168,23 +200,49 @@ public class BoardController {
   }
 
   /**
-   * 댓글 조회
+   * 댓글 수정
    * @param request
    * @param response
    * @return
    * @throws Exception
    */
   @ResponseBody
-  @GetMapping(value = "/reply/list")
-  public List<ReplyVO> selectReplyList(HttpServletRequest request, HttpServletResponse response) throws Exception{
-    String schDocNo = request.getParameter("schDocNo");
+  @PostMapping(value = "/reply/update")
+  public int updateReply(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    String replyNo = request.getParameter("replyNo");
+    String docNo = request.getParameter("docNo");
+    String comment = request.getParameter("comment");
 
     ReplyVO vo = new ReplyVO();
-    vo.setSchDocNo(Integer.parseInt(schDocNo));
+    vo.setReplyNo(Integer.parseInt(replyNo));
+    vo.setDocNo(Integer.parseInt(docNo));
+    vo.setContent(comment);
 
-    List<ReplyVO> result = boardService.selectReplyList(vo);
+    int rows = boardService.updateReply(vo);
 
-    return result;
+    return rows;
+  }
+
+  /**
+   * 댓글 삭제
+   * @param request
+   * @param response
+   * @return
+   * @throws Exception
+   */
+  @ResponseBody
+  @PostMapping(value = "/reply/delete")
+  public int deleteReply(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    String replyNo = request.getParameter("replyNo");
+    String docNo = request.getParameter("docNo");
+
+    ReplyVO vo = new ReplyVO();
+    vo.setReplyNo(Integer.parseInt(replyNo));
+    vo.setDocNo(Integer.parseInt(docNo));
+
+    int rows = boardService.deleteReply(vo);
+
+    return rows;
   }
   
 }

@@ -9,14 +9,23 @@ public class BoardVO {
   private int view;
   private int reply;
 
-  private int schDocNo;
+  private String schType;
+  private String schVal;
 
-  public int getSchDocNo() {
-    return this.schDocNo;
+  public String getSchType() {
+    return this.schType;
   }
 
-  public void setSchDocNo(int schDocNo) {
-    this.schDocNo = schDocNo;
+  public void setSchType(String schType) {
+    this.schType = schType;
+  }
+
+  public String getSchVal() {
+    return this.schVal;
+  }
+
+  public void setSchVal(String schVal) {
+    this.schVal = schVal;
   }
 
   public int getDocNo() {

@@ -1,5 +1,49 @@
 # 게시판 API Server 만들기
 
+## 테이블 구조
+- TB_BOARD
+```
+DOC_NO int(10) not null primary key
+TITLE varchar(400) not null
+CONTENT varchar(4000) not null
+WRITER varchar(400) not null
+REG_DTTM datetime default CURRENT_TIMESTAMP
+VIEW int(10) default 0
+```
+- TB_REPLY
+```
+REPLY_NO int(10) not null primary key
+DOC_NO int(10) not null primary key foregin key (TB_BOARD DOC_NO)
+WRITER varchar(400) not null
+CONTENT varchar(4000) not null
+REG_DTTM datetime default CURRENT_TIMESTAMP
+```
+
+## MySQL 테이블 생성
+- TB_BOARD
+```
+create table `TB_BOARD` (
+  `DOC_NO` int(10) not null,
+  `TITLE` varchar(400) not null,
+  `CONTENT` varchar(4000) not null,
+  `WRITER` varchar(400) not null,
+  `REG_DTTM` datetime default CURRENT_TIMESTAMP,
+  `VIEW` int(10) default 0, primary key (`DOC_NO`)
+);
+```
+- TB_REPLY
+```
+create table `TB_REPLY` (
+  `REPLY_NO` int(10) not null,
+  `DOC_NO` int(10) not null,
+  `WRITER` varchar(400) not null,
+  `CONTENT` varchar(4000) not null,
+  `REG_DTTM` datetime default CURRENT_TIMESTAMP,
+  primary key (`REPLY_NO`, `DOC_NO`),
+  foreign key (`DOC_NO`) references `TB_BOARD`(`DOC_NO`)
+);
+```
+
 ## CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
 (1) pom.xml 에 의존성 추가  
 ```
@@ -18,7 +62,7 @@ docker pull 'image name'
 ```
 (2) container 구성
 ```
-docker run -d -p 'port' -e 'password setting' --name 'container name' 'image name'
+docker run -d -p 'port' -e 'password setting' --name 'container name' 'image name' --character-set-server=utf8 --collation-server=utf8_unicode_ci
 ```
 (3) container 실행
 ```
@@ -93,4 +137,40 @@ select now();
 - 패키지 clean & build, 테스트 제외
 ```
 ./mvnw clean package -DskipTests
+```
+
+## MySQL DataBase
+- DB 생성
+```
+create database 'database name' default character set utf8;
+```
+- DB 확인
+```
+show databases;
+```
+- DB 사용
+```
+use 'database name';
+```
+
+## MySQL User
+- User 생성 (% 는 외부 접근 허용)
+```
+create user 'user id'@'%' identified by 'password';
+```
+- User 삭제
+```
+drop user 'user id'@'%';
+```
+- 모든 DB, 테이블 권한 부여
+```
+grant all privileges on *.* to 'user id'@'%';
+```
+- 권한 적용
+```
+flush privileges;
+```
+- 권한 확인
+```
+show grants for 'user id'@'%';
 ```
