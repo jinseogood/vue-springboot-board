@@ -16,10 +16,12 @@
 						></v-text-field>
 					</v-col>
 					<v-col cols="2" align-self="center">
-						<v-btn @click="movePage('/write')" small text>
-							<v-icon small>mdi-pencil</v-icon>
-							<span style="width:5px;"></span>Write
-						</v-btn>
+						<Button
+							@click.native="movePage('/write')"
+							color="black"
+							icon="mdi-pencil"
+							title="Write"
+						></Button>
 					</v-col>
 				</v-row>
 				<v-row>
