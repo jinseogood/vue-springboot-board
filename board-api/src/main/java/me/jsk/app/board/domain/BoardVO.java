@@ -9,6 +9,25 @@ public class BoardVO {
   private int view;
   private int reply;
 
+  private String schType;
+  private String schVal;
+
+  public String getSchType() {
+    return this.schType;
+  }
+
+  public void setSchType(String schType) {
+    this.schType = schType;
+  }
+
+  public String getSchVal() {
+    return this.schVal;
+  }
+
+  public void setSchVal(String schVal) {
+    this.schVal = schVal;
+  }
+
   public int getDocNo() {
     return this.docNo;
   }

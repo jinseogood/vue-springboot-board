@@ -22,11 +22,26 @@ REG_DTTM datetime default CURRENT_TIMESTAMP
 ## MySQL 테이블 생성
 - TB_BOARD
 ```
-create table `TB_BOARD` (`DOC_NO` int(10) not null, `TITLE` varchar(400) not null, `CONTENT` varchar(4000) not null, `WRITER` varchar(400) not null, `REG_DTTM` datetime default CURRENT_TIMESTAMP, `VIEW` int(10) default 0, primary key (`DOC_NO`));
+create table `TB_BOARD` (
+  `DOC_NO` int(10) not null,
+  `TITLE` varchar(400) not null,
+  `CONTENT` varchar(4000) not null,
+  `WRITER` varchar(400) not null,
+  `REG_DTTM` datetime default CURRENT_TIMESTAMP,
+  `VIEW` int(10) default 0, primary key (`DOC_NO`)
+);
 ```
 - TB_REPLY
 ```
-create table `TB_REPLY` (`REPLY_NO` int(10) not null, `DOC_NO` int(10) not null, `WRITER` varchar(400) not null, `CONTENT` varchar(4000) not null, `REG_DTTM` datetime default CURRENT_TIMESTAMP, primary key (`REPLY_NO`, `DOC_NO`), foreign key (`DOC_NO`) references `TB_BOARD`(`DOC_NO`));
+create table `TB_REPLY` (
+  `REPLY_NO` int(10) not null,
+  `DOC_NO` int(10) not null,
+  `WRITER` varchar(400) not null,
+  `CONTENT` varchar(4000) not null,
+  `REG_DTTM` datetime default CURRENT_TIMESTAMP,
+  primary key (`REPLY_NO`, `DOC_NO`),
+  foreign key (`DOC_NO`) references `TB_BOARD`(`DOC_NO`)
+);
 ```
 
 ## CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.

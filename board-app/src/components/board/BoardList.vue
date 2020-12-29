@@ -6,13 +6,22 @@
 			</v-card-title>
 			<v-card-text>
 				<v-row>
-					<v-col cols="10">
+					<v-col cols="2" align-self="end" style="padding: 30px 12px 0 12px;">
+						<v-select
+							v-model="schType"
+							label="Condition"
+							dense
+							:items="conditions"
+						></v-select>
+					</v-col>
+					<v-col cols="8">
 						<v-text-field
-							v-model="search"
+							v-model="schVal"
 							append-icon="mdi-magnify"
 							label="Search"
 							single-line
 							hide-details
+							@keypress.enter.prevent="onKeyPressText"
 						></v-text-field>
 					</v-col>
 					<v-col cols="2" align-self="center">
@@ -32,7 +41,6 @@
 							@dblclick:row="onClickRow"
 							:headers="headers"
 							:items="document"
-							:search="search"
 						>
 							<template slot="items" slot-scope="props">
 								<td>{{ props.item.docNo }}</td>
@@ -42,9 +50,9 @@
 								<td>{{ props.item.view }}</td>
 								<td>{{ props.item.reply }}</td>
 							</template>
-							<v-alert slot="no-results" :value="true" color="warning">
+							<!-- <v-alert slot="no-results" :value="true" color="warning">
 								Your search for "{{ search }}" found no results
-							</v-alert>
+							</v-alert> -->
 						</v-data-table>
 					</v-col>
 				</v-row>
@@ -59,7 +67,6 @@ import { getBoardList } from '@/api/index'
 export default {
 	data() {
 		return {
-			search: '',
 			headers: [
 				{ text: 'DocNo', align: 'center', value: 'docNo' },
 				{ text: 'Title', align: 'start', value: 'title' },
@@ -69,6 +76,13 @@ export default {
 				{ text: 'Reply', align: 'center', value: 'reply' },
 			],
 			document: [],
+			conditions: [
+				{ text: '글 번호', value: 'docNo' },
+				{ text: '제목', value: 'title' },
+				{ text: '작성자', value: 'writer' },
+			],
+			schType: '',
+			schVal: '',
 		}
 	},
 	mounted() {
@@ -83,6 +97,20 @@ export default {
 	methods: {
 		onClickRow(event, data) {
 			this.movePage('/detail?docNo=' + data.item.docNo)
+		},
+		onKeyPressText() {
+			getBoardList({
+				params: {
+					schType: this.schType,
+					schVal: this.schVal,
+				},
+			})
+				.then(response => {
+					this.document = response.data
+				})
+				.catch(error => {
+					console.log(error)
+				})
 		},
 	},
 }
