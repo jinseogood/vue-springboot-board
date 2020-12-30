@@ -23,5 +23,6 @@ module.exports = {
         arrowParens: "avoid",
       },
     ],
+    "no-unused-vars": 1
   },
 };

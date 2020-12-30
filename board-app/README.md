@@ -126,3 +126,26 @@ export default myPlugin
 ## 상위 컴포넌트에서 하위 컴포넌트 접근 방법
 - 컴포넌트 태그에 ref 속성 추가 후 필요한 곳에서 this.$refs.속성명 으로 접근가능
 - 하위 컴포넌트 내 선언된 컴포넌트의 하위 컴포넌트를 접근하려면 this.$refs.속성명.$refs.속성명2 로 접근가능
+
+## no-unused-vars 해결 방법
+- vue.config.js 파일 내 설정으로 ESLint 에러 표시 레벨을 명령어 입력 창 레벨로 내려준다.
+```
+module.exports = {
+  devServer: {
+    overlay: false,
+  },
+}
+```
+
+## ESLint 표시 설정
+- no-unused-vars 표시 설정을 변경하려면 .eslintrc.js 파일 내 설정
+```
+rules: {
+  "no-unused-vars": 1 // 0 (경고/알림 제거), 1 (경고), 2 (빨간줄, 에러)
+```
+- ESLint 검사를 건너 뛸 곳에 주석 달기
+```
+// eslint-disable-next-line 다음줄 건너뛰기
+/* eslint-disable */ 전체 파일 건너뛰기
+/* eslint-disable */ ~ /* eslint-enable */ 해당 범위 건너뛰기
+```
