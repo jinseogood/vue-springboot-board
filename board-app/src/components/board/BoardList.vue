@@ -38,9 +38,14 @@
 				<v-row>
 					<v-col>
 						<v-data-table
+							class="elevation-1"
 							@dblclick:row="onClickRow"
 							:headers="headers"
 							:items="document"
+							:options.sync="options"
+							:server-items-length="totalCount"
+							:footer-props="footerOptions"
+							:loading="loading"
 						>
 							<template slot="items" slot-scope="props">
 								<td>{{ props.item.docNo }}</td>
@@ -76,41 +81,85 @@ export default {
 				{ text: 'Reply', align: 'center', value: 'reply' },
 			],
 			document: [],
+			options: {
+				multiSort: true,
+				sortBy: ['docNo'],
+				sortDesc: [true],
+				page: 1,
+				itemsPerPage: 5,
+			},
+			footerOptions: {
+				'items-per-page-options': [5, 10, 25, 50, 100],
+			},
+			totalCount: 0,
+			loading: false,
 			conditions: [
-				{ text: '글 번호', value: 'docNo' },
-				{ text: '제목', value: 'title' },
-				{ text: '작성자', value: 'writer' },
+				{ text: 'DocNo', value: 'docNo' },
+				{ text: 'Title', value: 'title' },
+				{ text: 'Writer', value: 'writer' },
 			],
 			schType: '',
 			schVal: '',
 		}
 	},
 	mounted() {
-		getBoardList()
-			.then(response => {
-				this.document = response.data
-			})
-			.catch(error => {
-				console.log(error)
-			})
+		// this.getBoardList()
+	},
+	watch: {
+		options: {
+			handler() {
+				this.getBoardList().then(data => {
+					this.document = data.items
+					this.totalCount = data.total
+				})
+			},
+			deep: true,
+		},
 	},
 	methods: {
-		onClickRow(event, data) {
-			this.movePage('/detail?docNo=' + data.item.docNo)
-		},
-		onKeyPressText() {
-			getBoardList({
+		getBoardDataFromAPI(itemsPerPage, page) {
+			return getBoardList({
 				params: {
 					schType: this.schType,
 					schVal: this.schVal,
+					rows: itemsPerPage,
+					page: page,
 				},
 			})
 				.then(response => {
-					this.document = response.data
+					return response.data
 				})
 				.catch(error => {
 					console.log(error)
 				})
+		},
+		getBoardList() {
+			const vm = this
+			this.loading = true
+			/* eslint-disable */
+			return new Promise((resolve, reject) => {
+				const { sortBy, sortDesc, page, itemsPerPage } = this.options
+
+				let items = this.getBoardDataFromAPI(itemsPerPage, page).then(response => {
+					items = response.data
+					const total = response.total
+
+					setTimeout(() => {
+						vm.loading = false
+						resolve({
+							items,
+							total,
+						})
+					}, 1000)
+				})
+			})
+			/* eslint-enable */
+		},
+		onClickRow(event, data) {
+			this.movePage('/detail?docNo=' + data.item.docNo)
+		},
+		onKeyPressText() {
+			this.getBoardList()
 		},
 	},
 }

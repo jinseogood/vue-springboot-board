@@ -1,5 +1,6 @@
 package me.jsk.app.board.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,17 +37,31 @@ public class BoardController {
    */
   @ResponseBody
   @GetMapping(value="/list")
-  public List<BoardVO> selectBoardList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+  public HashMap<String, Object> selectBoardList(HttpServletRequest request, HttpServletResponse response) throws Exception {
     String schType = request.getParameter("schType");
     String schVal = request.getParameter("schVal");
+    int rows = Integer.parseInt(request.getParameter("rows"));
+    int page = Integer.parseInt(request.getParameter("page"));
 
     BoardVO vo = new BoardVO();
     vo.setSchType(schType);
     vo.setSchVal(schVal);
+    vo.setStartNo(((page * rows) - rows) + 1);
+    vo.setEndNo(page *rows);
 
     List<BoardVO> result = boardService.selectBoardList(vo);
 
-    return result;
+    int total = 0;
+
+    if(result.size() > 0) {
+      total = boardService.selectBoardListCount(vo);
+    }
+
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    map.put("data", result);
+    map.put("total", total);
+
+    return map;
   }
 
   /**

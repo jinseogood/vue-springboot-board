@@ -9,8 +9,27 @@ public class BoardVO {
   private int view;
   private int reply;
 
+  private int startNo;
+  private int endNo;
+
   private String schType;
   private String schVal;
+
+  public int getStartNo() {
+    return this.startNo;
+  }
+
+  public void setStartNo(int startNo) {
+    this.startNo = startNo;
+  }
+
+  public int getEndNo() {
+    return this.endNo;
+  }
+
+  public void setEndNo(int endNo) {
+    this.endNo = endNo;
+  }
 
   public String getSchType() {
     return this.schType;

@@ -15,6 +15,14 @@ public interface BoardMapper {
    * @throws Exception
    */
   public List<BoardVO> selectBoardList(BoardVO vo) throws Exception;
+  
+  /**
+   * 게시판 건수 조회
+   * @param vo
+   * @return
+   * @throws Exception
+   */
+  public int selectBoardListCount(BoardVO vo) throws Exception;
 
   /**
    * 게시글 조회
@@ -86,5 +94,6 @@ public interface BoardMapper {
    * @throws Exception
    */
   public int deleteReply(ReplyVO vo) throws Exception;
+
 
 }
