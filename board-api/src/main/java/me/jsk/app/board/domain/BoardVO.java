@@ -11,41 +11,12 @@ public class BoardVO {
 
   private int startNo;
   private int endNo;
+  // private String[] sidx;
+  // private String[] sord;
+  private String[] sort;
 
   private String schType;
   private String schVal;
-
-  public int getStartNo() {
-    return this.startNo;
-  }
-
-  public void setStartNo(int startNo) {
-    this.startNo = startNo;
-  }
-
-  public int getEndNo() {
-    return this.endNo;
-  }
-
-  public void setEndNo(int endNo) {
-    this.endNo = endNo;
-  }
-
-  public String getSchType() {
-    return this.schType;
-  }
-
-  public void setSchType(String schType) {
-    this.schType = schType;
-  }
-
-  public String getSchVal() {
-    return this.schVal;
-  }
-
-  public void setSchVal(String schVal) {
-    this.schVal = schVal;
-  }
 
   public int getDocNo() {
     return this.docNo;
@@ -101,6 +72,62 @@ public class BoardVO {
 
   public void setReply(int reply) {
     this.reply = reply;
+  }
+
+  public int getStartNo() {
+    return this.startNo;
+  }
+
+  public void setStartNo(int startNo) {
+    this.startNo = startNo;
+  }
+
+  public int getEndNo() {
+    return this.endNo;
+  }
+
+  public void setEndNo(int endNo) {
+    this.endNo = endNo;
+  }
+
+  // public String[] getSidx() {
+  //   return sidx;
+  // }
+
+  // public void setSidx(String[] sidx) {
+  //   this.sidx = sidx;
+  // }
+
+  // public String[] getSord() {
+  //   return sord;
+  // }
+
+  // public void setSord(String[] sord) {
+  //   this.sord = sord;
+  // }
+
+  public String[] getSort() {
+    return sort;
+  }
+
+  public void setSort(String[] sort) {
+    this.sort = sort;
+  }
+
+  public String getSchType() {
+    return this.schType;
+  }
+
+  public void setSchType(String schType) {
+    this.schType = schType;
+  }
+
+  public String getSchVal() {
+    return this.schVal;
+  }
+
+  public void setSchVal(String schVal) {
+    this.schVal = schVal;
   }
 
 }

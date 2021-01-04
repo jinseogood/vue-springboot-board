@@ -55,9 +55,6 @@
 								<td>{{ props.item.view }}</td>
 								<td>{{ props.item.reply }}</td>
 							</template>
-							<!-- <v-alert slot="no-results" :value="true" color="warning">
-								Your search for "{{ search }}" found no results
-							</v-alert> -->
 						</v-data-table>
 					</v-col>
 				</v-row>
@@ -117,13 +114,14 @@ export default {
 		},
 	},
 	methods: {
-		getBoardDataFromAPI(itemsPerPage, page) {
+		getBoardDataFromAPI(page, itemsPerPage, sort) {
 			return getBoardList({
 				params: {
 					schType: this.schType,
 					schVal: this.schVal,
-					rows: itemsPerPage,
 					page: page,
+					rows: itemsPerPage,
+					sort: encodeURIComponent(sort),
 				},
 			})
 				.then(response => {
@@ -136,24 +134,43 @@ export default {
 		getBoardList() {
 			const vm = this
 			this.loading = true
-			/* eslint-disable */
+			// eslint-disable-next-line
 			return new Promise((resolve, reject) => {
 				const { sortBy, sortDesc, page, itemsPerPage } = this.options
+				let sort = []
 
-				let items = this.getBoardDataFromAPI(itemsPerPage, page).then(response => {
-					items = response.data
-					const total = response.total
+				if (sortBy.length > 0) {
+					// eslint-disable-next-line
+					sortBy.forEach((value, index) => {
+						sort.push(
+							value
+								.replace(/[A-Z]/g, function(str) {
+									return '_' + str[0]
+								})
+								.toUpperCase() +
+								' ' +
+								(sortDesc[index] ? 'desc' : 'asc'),
+						)
+					})
+				} else {
+					sort.push('DOC_NO desc')
+				}
 
-					setTimeout(() => {
-						vm.loading = false
-						resolve({
-							items,
-							total,
-						})
-					}, 1000)
-				})
+				let items = this.getBoardDataFromAPI(page, itemsPerPage, sort).then(
+					response => {
+						items = response.data
+						const total = response.total
+
+						setTimeout(() => {
+							vm.loading = false
+							resolve({
+								items,
+								total,
+							})
+						}, 1000)
+					},
+				)
 			})
-			/* eslint-enable */
 		},
 		onClickRow(event, data) {
 			this.movePage('/detail?docNo=' + data.item.docNo)

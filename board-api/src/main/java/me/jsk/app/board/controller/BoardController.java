@@ -1,5 +1,6 @@
 package me.jsk.app.board.controller;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,12 +43,18 @@ public class BoardController {
     String schVal = request.getParameter("schVal");
     int rows = Integer.parseInt(request.getParameter("rows"));
     int page = Integer.parseInt(request.getParameter("page"));
+    // String[] sidx = URLDecoder.decode(request.getParameter("sidx"), "UTF-8").split(",");
+    // String[] sord = URLDecoder.decode(request.getParameter("sord"), "UTF-8").split(",");
+    String[] sort = URLDecoder.decode(request.getParameter("sort"), "UTF-8").split(",");
 
     BoardVO vo = new BoardVO();
     vo.setSchType(schType);
     vo.setSchVal(schVal);
     vo.setStartNo(((page * rows) - rows) + 1);
-    vo.setEndNo(page *rows);
+    vo.setEndNo(page * rows);
+    // vo.setSidx(sidx);
+    // vo.setSord(sord);
+    vo.setSort(sort);
 
     List<BoardVO> result = boardService.selectBoardList(vo);
 
