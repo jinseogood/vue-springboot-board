@@ -11,12 +11,16 @@ import me.jsk.app.board.repository.BoardMapper;
 
 @Service
 public class BoardService {
-
-  @Autowired
+	
+	@Autowired
   BoardMapper boardMapper;
-
+	
 	public List<BoardVO> selectBoardList(BoardVO vo) throws Exception {
 		return boardMapper.selectBoardList(vo);
+	}
+
+	public int selectBoardListCount(BoardVO vo) throws Exception {
+		return boardMapper.selectBoardListCount(vo);
 	}
 
 	public BoardVO selectBoardDetail(BoardVO vo) throws Exception{

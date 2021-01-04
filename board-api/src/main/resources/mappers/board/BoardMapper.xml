@@ -13,24 +13,56 @@
     <result column="REPLY"    property="reply"    jdbcType="INTEGER"/>
   </resultMap>
   <select id="selectBoardList" resultMap="boardResult" parameterType="me.jsk.app.board.domain.BoardVO">
-    SELECT A.DOC_NO, A.TITLE, A.CONTENT, A.WRITER, A.REG_DTTM, A.VIEW, (SELECT COUNT(*) FROM TB_REPLY X WHERE X.DOC_NO = A.DOC_NO) AS REPLY
-      FROM TB_BOARD A
-     WHERE 1 = 1
-     <if test="schType != null and schType != '' and schVal != null and schVal != ''">
-       <choose>
-         <when test="schType == 'docNo'">
-          AND DOC_NO = #{schVal}
-         </when>
-         <when test="schType == 'title'">
-          AND TITLE = #{schVal}
-         </when>
-         <when test="schType == 'writer'">
-          AND WRITER = #{schVal}
-         </when>
-       </choose>
-     </if>
+    SELECT A.DOC_NO, A.TITLE, A.CONTENT, A.WRITER, A.REG_DTTM, A.VIEW, A.REPLY
+      FROM (
+            SELECT A.*, (@ROWNUM := @ROWNUM + 1) AS ROWNUM
+              FROM (
+                    SELECT A.DOC_NO, A.TITLE, A.CONTENT, A.WRITER, A.REG_DTTM, A.VIEW, (SELECT COUNT(*) FROM TB_REPLY X WHERE X.DOC_NO = A.DOC_NO) AS REPLY
+                      FROM TB_BOARD A
+                    <where>
+                      <if test="schType != null and schType != '' and schVal != null and schVal != ''">
+                        <choose>
+                          <when test="schType == 'docNo'">
+                            AND A.DOC_NO = #{schVal}
+                          </when>
+                          <when test="schType == 'title'">
+                            AND A.TITLE LIKE CONCAT('%', #{schVal}, '%')
+                          </when>
+                          <when test="schType == 'writer'">
+                            AND A.WRITER LIKE CONCAT('%', #{schVal}, '%')
+                          </when>
+                        </choose>
+                      </if>
+                    </where>
+                    ORDER BY
+                    <foreach collection="sort" item="sort" index="index" separator=",">
+                      ${sort}
+                    </foreach>
+                    ) A, (SELECT @ROWNUM := 0) TEMP
+            ) A
+     WHERE ROWNUM BETWEEN #{startNo} AND #{endNo}
   </select>
-
+                  
+  <select id="selectBoardListCount" resultType="int" parameterType="me.jsk.app.board.domain.BoardVO">
+    SELECT COUNT(*) AS TOTAL_CNT
+      FROM TB_BOARD
+    <where>
+      <if test="schType != null and schType != '' and schVal != null and schVal != ''">
+        <choose>
+          <when test="schType == 'docNo'">
+            AND DOC_NO = #{schVal}
+          </when>
+          <when test="schType == 'title'">
+            AND TITLE LIKE CONCAT('%', #{schVal}, '%')
+          </when>
+          <when test="schType == 'writer'">
+            AND WRITER LIKE CONCAT('%', #{schVal}, '%')
+          </when>
+        </choose>
+      </if>
+    </where>
+  </select>
+                  
   <select id="selectBoardDetail" resultMap="boardResult" parameterType="me.jsk.app.board.domain.BoardVO">
     SELECT A.DOC_NO, A.TITLE, A.CONTENT, A.WRITER, A.REG_DTTM, A.VIEW, (SELECT COUNT(*) FROM TB_REPLY X WHERE X.DOC_NO = A.DOC_NO) AS REPLY
       FROM TB_BOARD A
