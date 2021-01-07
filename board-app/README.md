@@ -2,7 +2,7 @@
 
 ## 개발 환경
 - @vue/cli 4.5.9 version
-- axios 0.21.0 version
+- axios 0.21.1 version
 - vue-router 3.2.0 version
 - vuetify 2.2.11 version
 - vuex 3.4.0 version
@@ -19,9 +19,8 @@
 
 ## 필요 컴포넌트
 - 상단 메뉴
-- 로그인
-- 회원가입
-- 정보수정
+- 날씨
+- 시간
 - 게시판 목록
 - 게시판 작성, 수정
 - 에러
@@ -41,7 +40,7 @@
   config
     .plugin('html')
     .tap((args) => {
-      args[0].title = 'Another Title';
+      args[0].title = 'Title';
       return args;
     });
 },
