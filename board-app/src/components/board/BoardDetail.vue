@@ -41,7 +41,7 @@
 					</v-col>
 				</v-row>
 				Content<br />
-				<Viewer ref="viewer" /><br />
+				<div style="height:300px;"><Viewer ref="viewer" /><br /></div>
 				Reply ({{ replyCount }})<br />
 				<v-simple-table dense>
 					<tbody>
@@ -83,10 +83,11 @@
 							clear-icon="mdi-close-circle"
 							rows="2"
 							no-resize
+							full-width
 							v-model="comment"
 						></v-textarea>
 					</v-col>
-					<v-col cols="2" align-self="center">
+					<v-col cols="2" align-self="center" style="padding: 0px 10px;">
 						<Button
 							@click.native="replySave"
 							color="indigo"
