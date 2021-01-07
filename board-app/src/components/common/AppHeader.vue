@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar app color="deep-orange darken-1" dark>
+	<v-app-bar app color="blue-grey darken-1" dark>
 		<v-btn @click="movePage('/home')" text>
 			<span class="mr-2">Home</span>
 		</v-btn>
