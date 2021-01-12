@@ -6,32 +6,30 @@
 			</v-card-title>
 			<v-card-text>
 				<v-row>
-					<v-col cols="2" align-self="end" style="padding: 30px 12px 0 12px;">
+					<v-col align-self="end" cols="12" md="2">
 						<v-select
 							v-model="schType"
 							label="Condition"
-							dense
 							:items="conditions"
 						></v-select>
 					</v-col>
-					<v-col cols="8">
+					<v-col cols="12" md="8">
 						<v-text-field
 							v-model="schVal"
-							append-icon="mdi-magnify"
 							label="Search"
 							single-line
-							hide-details
 							@keypress.enter.prevent="onKeyPressText"
 						></v-text-field>
 					</v-col>
-					<v-col cols="2" align-self="center">
+					<v-col align-self="center">
 						<Button
-							@click.native="movePage('/write')"
-							color="black"
+							@click.native="onKeyPressText"
+							color="blue-grey darken-1"
 							rounded
 							small
-							iconName="mdi-pencil"
-							btnName="Write"
+							block
+							iconName="mdi-magnify"
+							btnName="Search"
 						></Button>
 					</v-col>
 				</v-row>
@@ -60,6 +58,17 @@
 				</v-row>
 			</v-card-text>
 		</v-card>
+		<v-fab-transition>
+			<Button
+				@click.native="movePage('/write')"
+				color="blue-grey darken-1"
+				fab
+				left
+				bottom
+				fixed
+				iconName="mdi-pencil"
+			></Button>
+		</v-fab-transition>
 	</v-container>
 </template>
 
@@ -101,6 +110,11 @@ export default {
 	},
 	mounted() {
 		// this.getBoardList()
+	},
+	computed: {
+		// isMobile() {
+		// 	return this.$vuetify.breakpoint.mobile
+		// },
 	},
 	watch: {
 		options: {
@@ -181,5 +195,3 @@ export default {
 	},
 }
 </script>
-
-<style></style>

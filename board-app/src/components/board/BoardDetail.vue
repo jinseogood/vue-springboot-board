@@ -77,7 +77,7 @@
 				</v-simple-table>
 				<v-divider></v-divider>
 				<v-row>
-					<v-col style="padding: 0px 12px;">
+					<v-col cols="12" md="11" style="padding: 0px 12px;">
 						<v-textarea
 							clearable
 							clear-icon="mdi-close-circle"
@@ -87,7 +87,7 @@
 							v-model="comment"
 						></v-textarea>
 					</v-col>
-					<v-col cols="2" align-self="center" style="padding: 0px 10px;">
+					<v-col md="1" align-self="center" style="padding: 0px 10px;">
 						<Button
 							@click.native="replySave"
 							color="indigo"
@@ -132,6 +132,7 @@
 
 <script>
 import Viewer from '@/components/common/Viewer'
+import btnMixins from '@/mixins/btnMixins'
 import {
 	getBoardDetail,
 	deleteBoard,
@@ -142,6 +143,7 @@ import {
 } from '@/api/index'
 
 export default {
+	mixins: [btnMixins],
 	components: {
 		Viewer,
 	},

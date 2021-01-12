@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid>
+	<v-container>
 		<v-card elevation="10" outlined width="100%" class="mx-auto">
 			<v-card-title>
 				<span class="mr-2">Write</span>
