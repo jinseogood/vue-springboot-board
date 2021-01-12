@@ -38,7 +38,7 @@
 
 <script>
 import Editor from '@/components/common/Editor'
-import { insertBoard } from '@/api/index'
+import { insertBoardAPI } from '@/api/index'
 export default {
 	components: {
 		Editor,
@@ -60,7 +60,7 @@ export default {
 				'Do you want to save it?',
 			)
 			if (res) {
-				insertBoard({
+				insertBoardAPI({
 					params: {
 						title: title,
 						content: content,
