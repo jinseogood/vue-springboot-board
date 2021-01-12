@@ -134,12 +134,12 @@
 import Viewer from '@/components/common/Viewer'
 import btnMixins from '@/mixins/btnMixins'
 import {
-	getBoardDetail,
-	deleteBoard,
-	insertReply,
-	getReplyList,
-	deleteReply,
-	updateReply,
+	getBoardDetailAPI,
+	deleteBoardAPI,
+	insertReplyAPI,
+	getReplyListAPI,
+	deleteReplyAPI,
+	updateReplyAPI,
 } from '@/api/index'
 
 export default {
@@ -160,7 +160,7 @@ export default {
 		}
 	},
 	mounted() {
-		getBoardDetail({
+		getBoardDetailAPI({
 			params: {
 				docNo: this.$route.query.docNo,
 			},
@@ -177,7 +177,7 @@ export default {
 			.catch(error => {
 				console.log(error)
 			})
-		getReplyList({
+		getReplyListAPI({
 			params: {
 				docNo: this.$route.query.docNo,
 			},
@@ -196,7 +196,7 @@ export default {
 				'Are you sure you want to delete it?',
 			)
 			if (res) {
-				deleteBoard({
+				deleteBoardAPI({
 					params: {
 						docNo: this.docNo,
 					},
@@ -218,7 +218,7 @@ export default {
 		},
 		replySave() {
 			if (this.comment !== null) {
-				insertReply({
+				insertReplyAPI({
 					params: {
 						docNo: this.docNo,
 						comment: this.comment,
@@ -237,7 +237,7 @@ export default {
 		async replyEdit(replyNo, comment) {
 			let res = await this.promptDialog('Edit Reply', 'Comment', comment)
 			if (res) {
-				updateReply({
+				updateReplyAPI({
 					params: {
 						replyNo: replyNo,
 						docNo: this.docNo,
@@ -260,7 +260,7 @@ export default {
 				'Are you sure you want to delete it?',
 			)
 			if (res) {
-				deleteReply({
+				deleteReplyAPI({
 					params: {
 						replyNo: replyNo,
 						docNo: this.docNo,

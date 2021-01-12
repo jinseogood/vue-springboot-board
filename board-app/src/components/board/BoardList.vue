@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { getBoardList } from '@/api/index'
+import { getBoardListAPI } from '@/api/index'
 
 export default {
 	data() {
@@ -121,7 +121,7 @@ export default {
 	},
 	methods: {
 		getBoardDataFromAPI(page, itemsPerPage, sort) {
-			return getBoardList({
+			return getBoardListAPI({
 				params: {
 					schType: this.schType,
 					schVal: this.schVal,

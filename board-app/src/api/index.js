@@ -8,7 +8,7 @@ const instance = axios.create({
  * 게시글 목록 조회
  * @param {*} params
  */
-function getBoardList(params) {
+function getBoardListAPI(params) {
 	return instance.get('/board/list', params)
 }
 
@@ -16,7 +16,7 @@ function getBoardList(params) {
  * 게시글 상세 조회
  * @param {*} params
  */
-function getBoardDetail(params) {
+function getBoardDetailAPI(params) {
 	return instance.get('/board/detail', params)
 }
 
@@ -24,7 +24,7 @@ function getBoardDetail(params) {
  * 게시글 작성
  * @param {*} params
  */
-function insertBoard(params) {
+function insertBoardAPI(params) {
 	return instance.post('/board/insert', null, params)
 }
 
@@ -32,7 +32,7 @@ function insertBoard(params) {
  * 게시글 수정
  * @param {*} params
  */
-function updateBoard(params) {
+function updateBoardAPI(params) {
 	return instance.post('/board/update', null, params)
 }
 
@@ -40,7 +40,7 @@ function updateBoard(params) {
  * 게시글 삭제
  * @param {*} params
  */
-function deleteBoard(params) {
+function deleteBoardAPI(params) {
 	return instance.post('/board/delete', null, params)
 }
 
@@ -48,7 +48,7 @@ function deleteBoard(params) {
  * 댓글 작성
  * @param {*} params
  */
-function insertReply(params) {
+function insertReplyAPI(params) {
 	return instance.post('/board/reply/insert', null, params)
 }
 
@@ -56,7 +56,7 @@ function insertReply(params) {
  * 댓글 조회
  * @param {*} params
  */
-function getReplyList(params) {
+function getReplyListAPI(params) {
 	return instance.get('/board/reply/list', params)
 }
 
@@ -64,7 +64,7 @@ function getReplyList(params) {
  * 댓글 수정
  * @param {*} params
  */
-function updateReply(params) {
+function updateReplyAPI(params) {
 	return instance.post('/board/reply/update', null, params)
 }
 
@@ -72,18 +72,18 @@ function updateReply(params) {
  * 댓글 삭제
  * @param {*} params
  */
-function deleteReply(params) {
+function deleteReplyAPI(params) {
 	return instance.post('/board/reply/delete', null, params)
 }
 
 export {
-	getBoardList,
-	getBoardDetail,
-	insertBoard,
-	updateBoard,
-	deleteBoard,
-	insertReply,
-	getReplyList,
-	updateReply,
-	deleteReply,
+	getBoardListAPI,
+	getBoardDetailAPI,
+	insertBoardAPI,
+	updateBoardAPI,
+	deleteBoardAPI,
+	insertReplyAPI,
+	getReplyListAPI,
+	updateReplyAPI,
+	deleteReplyAPI,
 }
