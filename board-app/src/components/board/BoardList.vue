@@ -9,21 +9,21 @@
 					<v-col align-self="end" cols="12" md="2">
 						<v-select
 							v-model="schType"
-							label="Condition"
+							label="검색 조건"
 							:items="conditions"
 						></v-select>
 					</v-col>
 					<v-col cols="12" md="8">
 						<v-text-field
 							v-model="schVal"
-							label="Search"
+							label="검색어"
 							single-line
-							@keypress.enter.prevent="onKeyPressText"
+							@keypress.enter.prevent="getBoardList"
 						></v-text-field>
 					</v-col>
 					<v-col align-self="center">
 						<Button
-							@click.native="onKeyPressText"
+							@click.native="getBoardList"
 							color="blue-grey darken-1"
 							rounded
 							small
@@ -37,7 +37,7 @@
 					<v-col>
 						<v-data-table
 							class="elevation-1"
-							@dblclick:row="onClickRow"
+							@click:row="onClickRow"
 							:headers="headers"
 							:items="document"
 							:options.sync="options"
@@ -79,12 +79,12 @@ export default {
 	data() {
 		return {
 			headers: [
-				{ text: 'DocNo', align: 'center', value: 'docNo' },
-				{ text: 'Title', align: 'start', value: 'title' },
-				{ text: 'Writer', align: 'center', value: 'writer' },
-				{ text: 'Register Time', align: 'center', value: 'regDttm' },
-				{ text: 'View', align: 'center', value: 'view' },
-				{ text: 'Reply', align: 'center', value: 'reply' },
+				{ text: '글 번호', align: 'center', value: 'docNo' },
+				{ text: '제목', align: 'start', value: 'title' },
+				{ text: '작성자', align: 'center', value: 'writer' },
+				{ text: '작성일시', align: 'center', value: 'regDttm' },
+				{ text: '조회수', align: 'center', value: 'view' },
+				{ text: '댓글수', align: 'center', value: 'reply' },
 			],
 			document: [],
 			options: {
@@ -100,29 +100,21 @@ export default {
 			totalCount: 0,
 			loading: false,
 			conditions: [
-				{ text: 'DocNo', value: 'docNo' },
-				{ text: 'Title', value: 'title' },
-				{ text: 'Writer', value: 'writer' },
+				{ text: '글 번호', value: 'docNo' },
+				{ text: '제목', value: 'title' },
+				{ text: '작성자', value: 'writer' },
 			],
 			schType: '',
 			schVal: '',
 		}
 	},
 	mounted() {
-		// this.getBoardList()
-	},
-	computed: {
-		// isMobile() {
-		// 	return this.$vuetify.breakpoint.mobile
-		// },
+		this.getBoardList()
 	},
 	watch: {
 		options: {
 			handler() {
-				this.getBoardList().then(data => {
-					this.document = data.items
-					this.totalCount = data.total
-				})
+				this.getBoardList()
 			},
 			deep: true,
 		},
@@ -177,10 +169,8 @@ export default {
 
 						setTimeout(() => {
 							vm.loading = false
-							resolve({
-								items,
-								total,
-							})
+							this.document = items
+							this.totalCount = total
 						}, 1000)
 					},
 				)
@@ -188,9 +178,6 @@ export default {
 		},
 		onClickRow(event, data) {
 			this.movePage('/detail?docNo=' + data.item.docNo)
-		},
-		onKeyPressText() {
-			this.getBoardList()
 		},
 	},
 }
