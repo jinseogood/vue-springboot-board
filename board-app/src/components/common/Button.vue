@@ -1,40 +1,29 @@
 <template>
 	<v-btn
-		class="ma-2 white--text"
-		:color="color"
-		:dark="dark || false"
-		:elevation="elevation || undefined"
-		:icon="icon || false"
-		:large="large || false"
-		:outlined="outlined || false"
-		:rounded="rounded || false"
-		:small="small || false"
-		:text="text || false"
-		:x-large="xlarge || false"
-		:x-small="xsmall || false"
+		class="white--text"
+		v-on="$listeners"
+		v-bind="$attrs"
+		v-if="!isMobile()"
 	>
 		<v-icon small>
 			{{ iconName }}
 		</v-icon>
-		<span style="width:5px;"></span>
+		<span style="width: 5px" v-if="btnName"></span>
 		{{ btnName }}
+	</v-btn>
+	<v-btn class="white--text" v-on="$listeners" v-bind="$attrs" v-else>
+		<v-icon small>
+			{{ iconName }}
+		</v-icon>
 	</v-btn>
 </template>
 
 <script>
+import btnMixins from '@/mixins/btnMixins'
+
 export default {
+	mixins: [btnMixins],
 	props: {
-		color: String,
-		dark: Boolean,
-		elevation: Number || String,
-		icon: Boolean,
-		large: Boolean,
-		outlined: Boolean,
-		rounded: Boolean,
-		small: Boolean,
-		text: Boolean,
-		xlarge: Boolean,
-		xsmall: Boolean,
 		iconName: String,
 		btnName: String,
 	},
