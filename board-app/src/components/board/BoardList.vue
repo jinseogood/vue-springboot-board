@@ -89,8 +89,8 @@ export default {
 			document: [],
 			options: {
 				multiSort: true,
-				sortBy: ['docNo'],
-				sortDesc: [true],
+				sortBy: [],
+				sortDesc: [],
 				page: 1,
 				itemsPerPage: 5,
 			},
