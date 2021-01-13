@@ -32,17 +32,33 @@
 				<v-simple-table dense>
 					<tbody>
 						<tr v-for="(reply, index) in replies" :key="index">
-							<td style="width:100px; padding: 0;">
+							<td style="width:110px; padding: 0;" v-if="!isMobile()">
 								<v-icon small>
 									mdi-account
 								</v-icon>
 								{{ reply.writer }}
 							</td>
+							<td style="width:40px; padding: 0;" v-else>
+								<Tooltip
+									bottom
+									iconName="mdi-account"
+									title="작성자"
+									:content="reply.writer"
+								/>
+							</td>
 							<td style="padding: 0;">{{ reply.content }}</td>
-							<td class="hidden-md-and-down" style="width:150px; padding: 0;">
+							<td style="width:140px; padding: 0;" v-if="!isMobile()">
 								{{ reply.regDttm }}
 							</td>
-							<td style="width:10px; padding: 0;">
+							<td style="width:40px; padding: 0;" v-else>
+								<Tooltip
+									bottom
+									iconName="mdi-clock-outline"
+									title="작성일시"
+									:content="reply.regDttm"
+								/>
+							</td>
+							<td style="width:30px; padding: 0;">
 								<Button
 									@click.native="replyEdit(reply.replyNo, reply.content)"
 									color="grey"
@@ -51,7 +67,7 @@
 									iconName="mdi-pencil"
 								/>
 							</td>
-							<td style="width:10px; padding: 0;">
+							<td style="width:30px; padding: 0;">
 								<Button
 									@click.native="replyDel(reply.replyNo)"
 									color="red"
@@ -120,6 +136,7 @@
 
 <script>
 import Viewer from '@/components/common/Viewer'
+import Tooltip from '@/components/common/Tooltip'
 import btnMixins from '@/mixins/btnMixins'
 import {
 	getBoardDetailAPI,
@@ -134,6 +151,7 @@ export default {
 	mixins: [btnMixins],
 	components: {
 		Viewer,
+		Tooltip,
 	},
 	data() {
 		return {
