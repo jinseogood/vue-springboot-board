@@ -38,7 +38,7 @@
 
 <script>
 import Editor from '@/components/common/Editor'
-import { getBoardDetail, updateBoard } from '@/api/index'
+import { getBoardDetailAPI, updateBoardAPI } from '@/api/index'
 export default {
 	components: {
 		Editor,
@@ -53,7 +53,7 @@ export default {
 		writer: '',
 	}),
 	mounted() {
-		getBoardDetail({
+		getBoardDetailAPI({
 			params: {
 				docNo: this.$route.query.docNo,
 			},
@@ -79,7 +79,7 @@ export default {
 				'Do you want to save it?',
 			)
 			if (res) {
-				updateBoard({
+				updateBoardAPI({
 					params: {
 						docNo: docNo,
 						title: title,

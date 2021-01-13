@@ -11,8 +11,6 @@ public class BoardVO {
 
   private int startNo;
   private int endNo;
-  // private String[] sidx;
-  // private String[] sord;
   private String[] sort;
 
   private String schType;
@@ -89,22 +87,6 @@ public class BoardVO {
   public void setEndNo(int endNo) {
     this.endNo = endNo;
   }
-
-  // public String[] getSidx() {
-  //   return sidx;
-  // }
-
-  // public void setSidx(String[] sidx) {
-  //   this.sidx = sidx;
-  // }
-
-  // public String[] getSord() {
-  //   return sord;
-  // }
-
-  // public void setSord(String[] sord) {
-  //   this.sord = sord;
-  // }
 
   public String[] getSort() {
     return sort;

@@ -6,32 +6,30 @@
 			</v-card-title>
 			<v-card-text>
 				<v-row>
-					<v-col cols="2" align-self="end" style="padding: 30px 12px 0 12px;">
+					<v-col align-self="end" cols="12" md="2">
 						<v-select
 							v-model="schType"
-							label="Condition"
-							dense
+							label="검색조건"
 							:items="conditions"
 						></v-select>
 					</v-col>
-					<v-col cols="8">
+					<v-col cols="12" md="8">
 						<v-text-field
 							v-model="schVal"
-							append-icon="mdi-magnify"
-							label="Search"
+							label="검색어"
 							single-line
-							hide-details
-							@keypress.enter.prevent="onKeyPressText"
+							@keypress.enter.prevent="getBoardList"
 						></v-text-field>
 					</v-col>
-					<v-col cols="2" align-self="center">
+					<v-col align-self="center">
 						<Button
-							@click.native="movePage('/write')"
-							color="black"
+							@click.native="getBoardList"
+							color="blue-grey darken-1"
 							rounded
 							small
-							iconName="mdi-pencil"
-							btnName="Write"
+							block
+							iconName="mdi-magnify"
+							btnName="Search"
 						></Button>
 					</v-col>
 				</v-row>
@@ -39,7 +37,7 @@
 					<v-col>
 						<v-data-table
 							class="elevation-1"
-							@dblclick:row="onClickRow"
+							@click:row="onClickRow"
 							:headers="headers"
 							:items="document"
 							:options.sync="options"
@@ -60,22 +58,33 @@
 				</v-row>
 			</v-card-text>
 		</v-card>
+		<v-fab-transition>
+			<Button
+				@click.native="movePage('/write')"
+				color="blue-grey darken-1"
+				fab
+				left
+				bottom
+				fixed
+				iconName="mdi-pencil"
+			></Button>
+		</v-fab-transition>
 	</v-container>
 </template>
 
 <script>
-import { getBoardList } from '@/api/index'
+import { getBoardListAPI } from '@/api/index'
 
 export default {
 	data() {
 		return {
 			headers: [
-				{ text: 'DocNo', align: 'center', value: 'docNo' },
-				{ text: 'Title', align: 'start', value: 'title' },
-				{ text: 'Writer', align: 'center', value: 'writer' },
-				{ text: 'Register Time', align: 'center', value: 'regDttm' },
-				{ text: 'View', align: 'center', value: 'view' },
-				{ text: 'Reply', align: 'center', value: 'reply' },
+				{ text: '글 번호', align: 'center', value: 'docNo' },
+				{ text: '제목', align: 'start', value: 'title' },
+				{ text: '작성자', align: 'center', value: 'writer' },
+				{ text: '작성일시', align: 'center', value: 'regDttm' },
+				{ text: '조회수', align: 'center', value: 'view' },
+				{ text: '댓글수', align: 'center', value: 'reply' },
 			],
 			document: [],
 			options: {
@@ -91,31 +100,28 @@ export default {
 			totalCount: 0,
 			loading: false,
 			conditions: [
-				{ text: 'DocNo', value: 'docNo' },
-				{ text: 'Title', value: 'title' },
-				{ text: 'Writer', value: 'writer' },
+				{ text: '글 번호', value: 'docNo' },
+				{ text: '제목', value: 'title' },
+				{ text: '작성자', value: 'writer' },
 			],
 			schType: '',
 			schVal: '',
 		}
 	},
 	mounted() {
-		// this.getBoardList()
+		this.getBoardList()
 	},
 	watch: {
 		options: {
 			handler() {
-				this.getBoardList().then(data => {
-					this.document = data.items
-					this.totalCount = data.total
-				})
+				this.getBoardList()
 			},
 			deep: true,
 		},
 	},
 	methods: {
 		getBoardDataFromAPI(page, itemsPerPage, sort) {
-			return getBoardList({
+			return getBoardListAPI({
 				params: {
 					schType: this.schType,
 					schVal: this.schVal,
@@ -163,10 +169,8 @@ export default {
 
 						setTimeout(() => {
 							vm.loading = false
-							resolve({
-								items,
-								total,
-							})
+							this.document = items
+							this.totalCount = total
 						}, 1000)
 					},
 				)
@@ -175,11 +179,6 @@ export default {
 		onClickRow(event, data) {
 			this.movePage('/detail?docNo=' + data.item.docNo)
 		},
-		onKeyPressText() {
-			this.getBoardList()
-		},
 	},
 }
 </script>
-
-<style></style>

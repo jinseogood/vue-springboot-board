@@ -6,55 +6,59 @@
 			</v-card-title>
 			<v-card-text>
 				<v-row>
-					<v-col cols="9">
-						<v-text-field readonly v-model="title" label="Title"></v-text-field>
+					<v-col>
+						<v-text-field label="Title" readonly :value="title" />
 					</v-col>
-					<v-col cols="1" align-self="center">
-						<v-tooltip bottom>
-							<template v-slot:activator="{ on, attrs }">
-								<v-icon v-on="on" v-bind="attrs">
-									mdi-account
-								</v-icon>
-							</template>
-							<span>Writer<br />{{ writer }}</span>
-						</v-tooltip>
+				</v-row>
+				<v-row>
+					<v-col>
+						<v-text-field label="Writer" readonly dense :value="writer" />
 					</v-col>
-					<v-col cols="1" align-self="center">
-						<v-tooltip bottom>
-							<template v-slot:activator="{ on, attrs }">
-								<v-icon v-on="on" v-bind="attrs">
-									mdi-clock-outline
-								</v-icon>
-							</template>
-							<span>Register Time<br />{{ regDttm }}</span>
-						</v-tooltip>
+					<v-col>
+						<v-text-field
+							label="Register Time"
+							readonly
+							dense
+							:value="regDttm"
+						/>
 					</v-col>
-					<v-col cols="1" align-self="center">
-						<v-tooltip bottom>
-							<template v-slot:activator="{ on, attrs }">
-								<v-icon v-on="on" v-bind="attrs">
-									mdi-eye
-								</v-icon>
-							</template>
-							<span>View<br />{{ view }}</span>
-						</v-tooltip>
+					<v-col>
+						<v-text-field label="View" readonly dense :value="view" />
 					</v-col>
 				</v-row>
 				Content<br />
-				<Viewer ref="viewer" /><br />
+				<div style="height:300px;"><Viewer ref="viewer" /><br /></div>
 				Reply ({{ replyCount }})<br />
 				<v-simple-table dense>
 					<tbody>
 						<tr v-for="(reply, index) in replies" :key="index">
-							<td style="width:100px; padding: 0;">
+							<td style="width:110px; padding: 0;" v-if="!isMobile()">
 								<v-icon small>
 									mdi-account
 								</v-icon>
 								{{ reply.writer }}
 							</td>
+							<td style="width:40px; padding: 0;" v-else>
+								<Tooltip
+									bottom
+									iconName="mdi-account"
+									title="작성자"
+									:content="reply.writer"
+								/>
+							</td>
 							<td style="padding: 0;">{{ reply.content }}</td>
-							<td style="width:150px; padding: 0;">{{ reply.regDttm }}</td>
-							<td style="width:10px; padding: 0;">
+							<td style="width:140px; padding: 0;" v-if="!isMobile()">
+								{{ reply.regDttm }}
+							</td>
+							<td style="width:40px; padding: 0;" v-else>
+								<Tooltip
+									bottom
+									iconName="mdi-clock-outline"
+									title="작성일시"
+									:content="reply.regDttm"
+								/>
+							</td>
+							<td style="width:30px; padding: 0;">
 								<Button
 									@click.native="replyEdit(reply.replyNo, reply.content)"
 									color="grey"
@@ -63,7 +67,7 @@
 									iconName="mdi-pencil"
 								/>
 							</td>
-							<td style="width:10px; padding: 0;">
+							<td style="width:30px; padding: 0;">
 								<Button
 									@click.native="replyDel(reply.replyNo)"
 									color="red"
@@ -77,16 +81,17 @@
 				</v-simple-table>
 				<v-divider></v-divider>
 				<v-row>
-					<v-col style="padding: 0px 12px;">
+					<v-col cols="12" md="11" style="padding: 0px 12px;">
 						<v-textarea
 							clearable
 							clear-icon="mdi-close-circle"
 							rows="2"
 							no-resize
+							full-width
 							v-model="comment"
 						></v-textarea>
 					</v-col>
-					<v-col cols="2" align-self="center">
+					<v-col md="1" align-self="center" style="padding: 0px 10px;">
 						<Button
 							@click.native="replySave"
 							color="indigo"
@@ -131,18 +136,22 @@
 
 <script>
 import Viewer from '@/components/common/Viewer'
+import Tooltip from '@/components/common/Tooltip'
+import btnMixins from '@/mixins/btnMixins'
 import {
-	getBoardDetail,
-	deleteBoard,
-	insertReply,
-	getReplyList,
-	deleteReply,
-	updateReply,
+	getBoardDetailAPI,
+	deleteBoardAPI,
+	insertReplyAPI,
+	getReplyListAPI,
+	deleteReplyAPI,
+	updateReplyAPI,
 } from '@/api/index'
 
 export default {
+	mixins: [btnMixins],
 	components: {
 		Viewer,
+		Tooltip,
 	},
 	data() {
 		return {
@@ -157,7 +166,7 @@ export default {
 		}
 	},
 	mounted() {
-		getBoardDetail({
+		getBoardDetailAPI({
 			params: {
 				docNo: this.$route.query.docNo,
 			},
@@ -174,7 +183,7 @@ export default {
 			.catch(error => {
 				console.log(error)
 			})
-		getReplyList({
+		getReplyListAPI({
 			params: {
 				docNo: this.$route.query.docNo,
 			},
@@ -193,7 +202,7 @@ export default {
 				'Are you sure you want to delete it?',
 			)
 			if (res) {
-				deleteBoard({
+				deleteBoardAPI({
 					params: {
 						docNo: this.docNo,
 					},
@@ -215,7 +224,7 @@ export default {
 		},
 		replySave() {
 			if (this.comment !== null) {
-				insertReply({
+				insertReplyAPI({
 					params: {
 						docNo: this.docNo,
 						comment: this.comment,
@@ -234,7 +243,7 @@ export default {
 		async replyEdit(replyNo, comment) {
 			let res = await this.promptDialog('Edit Reply', 'Comment', comment)
 			if (res) {
-				updateReply({
+				updateReplyAPI({
 					params: {
 						replyNo: replyNo,
 						docNo: this.docNo,
@@ -257,7 +266,7 @@ export default {
 				'Are you sure you want to delete it?',
 			)
 			if (res) {
-				deleteReply({
+				deleteReplyAPI({
 					params: {
 						replyNo: replyNo,
 						docNo: this.docNo,
