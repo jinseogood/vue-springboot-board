@@ -1,6 +1,7 @@
 <template>
 	<div id="clock">
-		<v-icon small>mdi-calendar</v-icon> {{ date }} <br />
+		<v-icon small>mdi-calendar</v-icon> {{ date }}
+		<br />
 		<v-icon small>mdi-clock-outline</v-icon> {{ time }}
 	</div>
 </template>
