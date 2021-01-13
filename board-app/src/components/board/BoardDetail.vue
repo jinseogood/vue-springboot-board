@@ -6,38 +6,24 @@
 			</v-card-title>
 			<v-card-text>
 				<v-row>
-					<v-col cols="9">
-						<v-text-field readonly v-model="title" label="Title"></v-text-field>
+					<v-col>
+						<v-text-field label="Title" readonly :value="title" />
 					</v-col>
-					<v-col cols="1" align-self="center">
-						<v-tooltip bottom>
-							<template v-slot:activator="{ on, attrs }">
-								<v-icon v-on="on" v-bind="attrs">
-									mdi-account
-								</v-icon>
-							</template>
-							<span>Writer<br />{{ writer }}</span>
-						</v-tooltip>
+				</v-row>
+				<v-row>
+					<v-col>
+						<v-text-field label="Writer" readonly dense :value="writer" />
 					</v-col>
-					<v-col cols="1" align-self="center">
-						<v-tooltip bottom>
-							<template v-slot:activator="{ on, attrs }">
-								<v-icon v-on="on" v-bind="attrs">
-									mdi-clock-outline
-								</v-icon>
-							</template>
-							<span>Register Time<br />{{ regDttm }}</span>
-						</v-tooltip>
+					<v-col>
+						<v-text-field
+							label="Register Time"
+							readonly
+							dense
+							:value="regDttm"
+						/>
 					</v-col>
-					<v-col cols="1" align-self="center">
-						<v-tooltip bottom>
-							<template v-slot:activator="{ on, attrs }">
-								<v-icon v-on="on" v-bind="attrs">
-									mdi-eye
-								</v-icon>
-							</template>
-							<span>View<br />{{ view }}</span>
-						</v-tooltip>
+					<v-col>
+						<v-text-field label="View" readonly dense :value="view" />
 					</v-col>
 				</v-row>
 				Content<br />
@@ -53,7 +39,9 @@
 								{{ reply.writer }}
 							</td>
 							<td style="padding: 0;">{{ reply.content }}</td>
-							<td style="width:150px; padding: 0;">{{ reply.regDttm }}</td>
+							<td class="hidden-md-and-down" style="width:150px; padding: 0;">
+								{{ reply.regDttm }}
+							</td>
 							<td style="width:10px; padding: 0;">
 								<Button
 									@click.native="replyEdit(reply.replyNo, reply.content)"

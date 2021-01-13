@@ -9,7 +9,7 @@
 					<v-col align-self="end" cols="12" md="2">
 						<v-select
 							v-model="schType"
-							label="검색 조건"
+							label="검색조건"
 							:items="conditions"
 						></v-select>
 					</v-col>
