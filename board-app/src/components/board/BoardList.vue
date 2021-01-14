@@ -23,7 +23,7 @@
 					</v-col>
 					<v-col align-self="center">
 						<Button
-							@click.native="getBoardList"
+							@click="getBoardList"
 							color="blue-grey darken-1"
 							rounded
 							small
@@ -60,7 +60,7 @@
 		</v-card>
 		<v-fab-transition>
 			<Button
-				@click.native="movePage('/write')"
+				@click="movePage('/write')"
 				color="blue-grey darken-1"
 				fab
 				left

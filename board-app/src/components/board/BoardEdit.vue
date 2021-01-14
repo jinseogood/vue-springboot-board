@@ -16,7 +16,7 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<Button
-					@click.native="edit"
+					@click="edit"
 					color="warning"
 					rounded
 					small
@@ -24,7 +24,7 @@
 					btnName="Edit"
 				></Button>
 				<Button
-					@click.native="movePage('/detail?docNo=' + docNo)"
+					@click="movePage('/detail?docNo=' + docNo)"
 					color="grey darken-1"
 					rounded
 					small

@@ -16,7 +16,7 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<Button
-					@click.native="save"
+					@click="save"
 					color="success"
 					rounded
 					small
@@ -24,7 +24,7 @@
 					btnName="Save"
 				></Button>
 				<Button
-					@click.native="movePage('/list')"
+					@click="movePage('/list')"
 					color="grey darken-1"
 					rounded
 					small
