@@ -60,7 +60,7 @@
 							</td>
 							<td style="width:30px; padding: 0;">
 								<Button
-									@click.native="replyEdit(reply.replyNo, reply.content)"
+									@click="replyEdit(reply.replyNo, reply.content)"
 									color="grey"
 									icon
 									xsmall
@@ -69,7 +69,7 @@
 							</td>
 							<td style="width:30px; padding: 0;">
 								<Button
-									@click.native="replyDel(reply.replyNo)"
+									@click="replyDel(reply.replyNo)"
 									color="red"
 									icon
 									xsmall
@@ -93,7 +93,7 @@
 					</v-col>
 					<v-col md="1" align-self="center" style="padding: 0px 10px;">
 						<Button
-							@click.native="replySave"
+							@click="replySave"
 							color="indigo"
 							rounded
 							small
@@ -106,7 +106,7 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<Button
-					@click.native="movePage('/edit?docNo=' + docNo)"
+					@click="movePage('/edit?docNo=' + docNo)"
 					color="warning"
 					rounded
 					small
@@ -114,7 +114,7 @@
 					btnName="Edit"
 				></Button>
 				<Button
-					@click.native="del"
+					@click="del"
 					color="error"
 					rounded
 					small
@@ -122,7 +122,7 @@
 					btnName="Delete"
 				></Button>
 				<Button
-					@click.native="movePage('/list')"
+					@click="movePage('/list')"
 					color="grey darken-1"
 					rounded
 					small
